@@ -26,67 +26,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-/*
+
 app.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
-});*/
-app.get('/ad', function(req, res) {
-  var query = new AV.Query('Ad');
-  query.find().then(function (ads) {
-      var data=[];
-      ads.forEach(function(ad){
-        var json={"id":ad.get('objectId'),"title":ad.get('title'),"imgUrl":ad.get('imgUrl'),"startTime":ad.get('startTime'),"expireTime":ad.get('expireTime'),
-              "howLong":ad.get('howLong'),"type":ad.get('type'),"seq":ad.get('seq')};
-        data.push(json);
-     });
-      res.json({
-        status:200,
-        message:"",
-        data:data,
-        server_time: new Date()
-      });
-    }, function (error) {
-
-    });
 });
 
-app.get('/version/:tag/:code',function(req,res){
-  var query=new AV.Query('Version');
-  query.equalTo('tag',req.params.tag);
-  query.greaterThan('version_code', req.params.code*1);
-  query.first().then(function (data) {
-    if(data==null){
-      data="";
-    }
-    res.json({
-      status:200,
-      message:"",
-      data:data,
-      server_time: new Date()
-    });
-  }, function (error) {
-
-  });
-});
-
-app.post('/box',function(req,res){
-    var box=new Box();
-    box.set('mac',req.body.mac);
-    box.set('ip',req.body.ip);
-    box.save().then(function (box){
-        console.log(box.id);
-        res.json({
-          status:200,
-          message:"",
-          data:box,
-          server_time: new Date()
-        });
-    },function (error){
-        console.error(error.message);
-    });
-});
 // 可以将一类的路由单独保存在一个文件中
-//app.use('/todos', todos);
+app.use('/todos', todos);
 
 app.use(function(req, res, next) {
   // 如果任何一个路由都没有返回响应，则抛出一个 404 异常给后续的异常处理器

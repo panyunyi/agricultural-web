@@ -1,7 +1,7 @@
 {
-  "name": "muchubox",
+  "name": "agriculture",
   "version": "1.0.0",
-  "description": "A sample Node.js app using Express 4",
+  "description": "TC HJ_Agriculture using Express 4",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -21,7 +21,8 @@
     "ejs": "2.3.1",
     "express": "4.12.3",
     "leancloud-storage": "^1.5.2",
-    "leanengine": "^1.0.0-beta"
+    "leanengine": "^1.0.0-beta",
+    "async":"2.1.2"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

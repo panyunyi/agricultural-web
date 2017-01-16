@@ -371,3 +371,6 @@ gallery.html css
   width: 200px;
   margin: 0 auto;
 }
+.am-u-lg-9{
+  float: left !important;
+}

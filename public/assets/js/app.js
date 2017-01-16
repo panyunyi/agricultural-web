@@ -98,7 +98,7 @@ var pageData = {
                 trigger: 'axis',
             },
             legend: {
-                data: ['邮件', '媒体', '资源']
+                data: ['土壤湿度', '光照强度', '土壤PH']
             },
             grid: {
                 left: '3%',
@@ -116,11 +116,11 @@ var pageData = {
                 type: 'value'
             }],
             series: [{
-                    name: '邮件',
+                    name: '土壤湿度',
                     type: 'line',
                     stack: '总量',
                     areaStyle: { normal: {} },
-                    data: [120, 132, 101, 134, 90, 230, 210],
+                    data: [12, 13, 11, 13, 9, 23, 21],
                     itemStyle: {
                         normal: {
                             color: '#59aea2'
@@ -131,11 +131,11 @@ var pageData = {
                     }
                 },
                 {
-                    name: '媒体',
+                    name: '光照强度',
                     type: 'line',
                     stack: '总量',
                     areaStyle: { normal: {} },
-                    data: [220, 182, 191, 234, 290, 330, 310],
+                    data: [22, 18, 19, 23, 29, 33, 31],
                     itemStyle: {
                         normal: {
                             color: '#e7505a'
@@ -143,11 +143,11 @@ var pageData = {
                     }
                 },
                 {
-                    name: '资源',
+                    name: '土壤PH',
                     type: 'line',
                     stack: '总量',
                     areaStyle: { normal: {} },
-                    data: [150, 232, 201, 154, 190, 330, 410],
+                    data: [7, 11, 9, 12, 11, 12, 13],
                     itemStyle: {
                         normal: {
                             color: '#32c5d2'
@@ -238,14 +238,14 @@ var pageData = {
             },
             legend: {
                 x: 'center',
-                data: ['某软件', '某主食手机', '某水果手机', '降水量', '蒸发量']
+                data: ['某蔬菜', '某水果', '某新品', '降水量', '蒸发量']
             },
             radar: [{
                     indicator: [
-                        { text: '品牌', max: 100 },
-                        { text: '内容', max: 100 },
-                        { text: '可用性', max: 100 },
-                        { text: '功能', max: 100 }
+                        { text: '播种量', max: 100 },
+                        { text: '生长率', max: 100 },
+                        { text: '产量', max: 100 },
+                        { text: '净重', max: 100 }
                     ],
                     center: ['25%', '40%'],
                     radius: 80
@@ -253,10 +253,10 @@ var pageData = {
                 {
                     indicator: [
                         { text: '外观', max: 100 },
-                        { text: '拍照', max: 100 },
-                        { text: '系统', max: 100 },
-                        { text: '性能', max: 100 },
-                        { text: '屏幕', max: 100 }
+                        { text: '产量', max: 100 },
+                        { text: '净重', max: 100 },
+                        { text: '口味', max: 100 },
+                        { text: '质量', max: 100 }
                     ],
                     radius: 80,
                     center: ['50%', '60%'],
@@ -281,7 +281,7 @@ var pageData = {
                     itemStyle: { normal: { areaStyle: { type: 'default' } } },
                     data: [{
                         value: [60, 73, 85, 40],
-                        name: '某软件'
+                        name: '某蔬菜'
                     }]
                 },
                 {
@@ -289,11 +289,11 @@ var pageData = {
                     radarIndex: 1,
                     data: [{
                             value: [85, 90, 90, 95, 95],
-                            name: '某主食手机'
+                            name: '某水果'
                         },
                         {
                             value: [95, 80, 95, 90, 93],
-                            name: '某水果手机'
+                            name: '某新品'
                         }
                     ]
                 },
@@ -321,7 +321,7 @@ var pageData = {
                 trigger: 'axis',
             },
             legend: {
-                data: ['邮件', '媒体', '资源']
+                data: ['土壤湿度', '光照强度', '土壤PH']
             },
             grid: {
                 left: '3%',
@@ -339,11 +339,11 @@ var pageData = {
                 type: 'value'
             }],
             series: [{
-                    name: '邮件',
+                    name: '土壤湿度',
                     type: 'line',
                     stack: '总量',
                     areaStyle: { normal: {} },
-                    data: [120, 132, 101, 134, 90, 230, 210],
+                    data: [12, 13, 11, 13, 9, 23, 21],
                     itemStyle: {
                         normal: {
                             color: '#59aea2'
@@ -354,11 +354,11 @@ var pageData = {
                     }
                 },
                 {
-                    name: '媒体',
+                    name: '光照强度',
                     type: 'line',
                     stack: '总量',
                     areaStyle: { normal: {} },
-                    data: [220, 182, 191, 234, 290, 330, 310],
+                    data: [22, 18, 19, 23, 29, 33, 31],
                     itemStyle: {
                         normal: {
                             color: '#e7505a'
@@ -366,11 +366,11 @@ var pageData = {
                     }
                 },
                 {
-                    name: '资源',
+                    name: '土壤PH',
                     type: 'line',
                     stack: '总量',
                     areaStyle: { normal: {} },
-                    data: [150, 232, 201, 154, 190, 330, 410],
+                    data: [11, 13, 15, 14, 16, 12, 11],
                     itemStyle: {
                         normal: {
                             color: '#32c5d2'

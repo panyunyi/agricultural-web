@@ -9,4 +9,28 @@ router.get('/', function(req, res) {
     	res.redirect('login');
     }
 });
+
+router.get('/video1', function(req, res) {
+    if(req.currentUser){
+    	res.render('videolist1');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
+router.get('/video2', function(req, res) {
+    if(req.currentUser){
+    	res.render('videolist2');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
+router.get('/chart', function(req, res) {
+    if(req.currentUser){
+    	res.render('chart');
+    }else{
+    	res.redirect('../login');
+    }
+});
 module.exports = router;

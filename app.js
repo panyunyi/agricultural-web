@@ -8,7 +8,7 @@ var todos = require('./routes/todos');
 var AV = require('leanengine');
 var admin=require('./routes/admin');
 var users = require('./routes/users');
-var tool=require('./routes/tool');
+var api=require('./routes/api');
 var app = express();
 
 // 设置模板引擎
@@ -39,7 +39,7 @@ app.get('/logout',function(req,res){
     return res.redirect('login');
 });
 
-app.use('/tool',tool);
+app.use('/api',api);
 app.use('/login', users);
 app.use('/admin',admin);
 

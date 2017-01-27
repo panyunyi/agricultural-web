@@ -788,6 +788,7 @@
     <script type="text/javascript">
         var socket=io.connect('http://14961rg045.iask.in:35790');
         socket.on('info',function(data){
+            //console.log(data);
             var arr=data.split(',');
             $('#temp').html(parseFloat(arr[0]).toFixed(2)+"℃");
             $('#wet').html(parseFloat(arr[1]).toFixed(1)+"%");
@@ -802,6 +803,26 @@
             $('#ph2').html(parseFloat(arr[9]).toFixed(1));
             $('#light2').html(parseFloat(arr[10])+"Lux");
             $('#soild2').html(parseFloat(arr[11]).toFixed(1)+"%");
+        });
+        socket.on('limit1',function(data){
+            //console.log(data);
+            var arr=data.split(',');
+            $('#war-temp').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"℃");
+            $('#war-wet').html(parseFloat(arr[2])+"~"+parseFloat(arr[3])+"%");
+            $('#war-co2').html(parseFloat(arr[4])+"~"+parseFloat(arr[5])+"PPM");
+            $('#war-ph').html(parseFloat(arr[6])+"~"+parseFloat(arr[7]));
+            $('#war-light').html(parseFloat(arr[8])+"~"+parseFloat(arr[9])+"Lux");
+            $('#war-soild').html(parseFloat(arr[10])+"~"+parseFloat(arr[11])+"%");
+        });
+        socket.on('limit2',function(data){
+            //console.log(data);
+            var arr=data.split(',');
+            $('#war-temp2').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"℃");
+            $('#war-wet2').html(parseFloat(arr[2])+"~"+parseFloat(arr[3])+"%");
+            $('#war-co22').html(parseFloat(arr[4])+"~"+parseFloat(arr[5])+"PPM");
+            $('#war-ph2').html(parseFloat(arr[6])+"~"+parseFloat(arr[7]));
+            $('#war-light2').html(parseFloat(arr[8])+"~"+parseFloat(arr[9])+"Lux");
+            $('#war-soild2').html(parseFloat(arr[10])+"~"+parseFloat(arr[11])+"%");
         });
     </script>
 </body>

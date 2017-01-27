@@ -33,4 +33,12 @@ router.get('/chart', function(req, res) {
     	res.redirect('../login');
     }
 });
+
+router.get('/switch', function(req, res) {
+    if(req.currentUser){
+    	res.render('switch');
+    }else{
+    	res.redirect('../login');
+    }
+});
 module.exports = router;

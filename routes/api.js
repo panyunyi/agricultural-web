@@ -11,8 +11,7 @@ router.get('/getToken', function(req, res) {
     let post={"id":"1","system":{"key":"11f13960d4dd4b6b8fada537d0f4d42a",
     "sign":sign,"time":time,"ver":"1.0"},"method":"token/getAccessToken",
     "params":{"phone":"18626126401"}};
-    //res.jsonp(post);
-
+    
     client.post('/',post,function(err,res1,body){
         res.jsonp(body);
     });

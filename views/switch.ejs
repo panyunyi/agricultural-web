@@ -423,6 +423,9 @@
             if(flag){
                 $(name).removeClass("font-red");
                 $(name).addClass("font-green");
+            }else {
+                $(name).removeClass("font-green");
+                $(name).addClass("font-red");
             }
         }
         var socket=io.connect('http://14961rg045.iask.in:35790');

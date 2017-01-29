@@ -511,7 +511,7 @@
             <div class="am-modal-bd">
               <span class="font-red" style="display:block"></span>
               上限
-              <input type="text" class="am-modal-prompt-input" style="width:30%;display:inline">~
+              <input type="text" class="am-modal-prompt-input" style="width:30%;display:inline"> ~ 
               下限
               <input type="text" class="am-modal-prompt-input" style="width:30%;display:inline">
               <input id="flag" type="text" class="am-modal-prompt-input" style="display:none">
@@ -534,7 +534,7 @@
         var socket=io.connect('http://14961rg045.iask.in:35790');
         function setData(flag,title,name){
             $('#flag').val(flag);
-            $('.am-modal-hd').html(title);
+            $('.am-modal-hd').html(title+" 告警阀值");
             $('.am-modal-bd span').html("现值:"+$(name).html());
             $('#my-prompt').modal({
               relatedTarget: this,

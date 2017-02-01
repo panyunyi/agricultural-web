@@ -1,0 +1,40 @@
+<%include header%>
+
+        <div class="tpl-content-wrapper">
+            <div class="tpl-content-page-title">
+                农事信息管理
+            </div>
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">农事管理</a></li>
+                <li class="am-active">农事记录</li>
+            </ol>
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 农事信息管理
+                    </div>
+                </div>
+                <div class="tpl-block">
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script type="text/javascript">
+        $('#farm').siblings('.tpl-left-nav-sub-menu').slideToggle(80)
+            .end()
+            .find('.tpl-left-nav-more-ico').toggleClass('tpl-left-nav-more-ico-rotate');
+        $('#farming').addClass('active');
+        $('#farm').addClass('active');
+    </script>
+</body>
+
+</html>

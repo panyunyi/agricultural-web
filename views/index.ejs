@@ -543,7 +543,7 @@
                     <div class="tpl-portlet">
                         <div class="tpl-portlet-title">
                             <div class="tpl-caption font-green ">
-                                <span>项目进度</span>
+                                <span>农事进度</span>
                             </div>
 
                         </div>
@@ -786,6 +786,7 @@
     <script src="../assets/js/app.js"></script>
     <script src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
     <script type="text/javascript">
+        $('#index').addClass('active');
         var socket=io.connect('http://14961rg045.iask.in:35790');
         socket.on('info',function(data){
             //console.log(data);
@@ -824,6 +825,9 @@
             $('#war-light2').html(parseFloat(arr[8])+"~"+parseFloat(arr[9])+"Lux");
             $('#war-soild2').html(parseFloat(arr[10])+"~"+parseFloat(arr[11])+"%");
         });
+        window.onbeforeunload = function(){
+            socket.close();
+        };
     </script>
 </body>
 

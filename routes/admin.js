@@ -26,6 +26,14 @@ router.get('/video2', function(req, res) {
     }
 });
 
+router.get('/video3', function(req, res) {
+    if(req.currentUser){
+    	res.render('videolist3');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
 router.get('/chart', function(req, res) {
     if(req.currentUser){
     	res.render('chart');
@@ -37,6 +45,54 @@ router.get('/chart', function(req, res) {
 router.get('/switch', function(req, res) {
     if(req.currentUser){
     	res.render('switch');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
+router.get('/greenhouse', function(req, res) {
+    if(req.currentUser){
+    	res.render('greenhouse');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
+router.get('/video', function(req, res) {
+    if(req.currentUser){
+    	res.render('video');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
+router.get('/crop', function(req, res) {
+    if(req.currentUser){
+    	res.render('crop');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
+router.get('/farming', function(req, res) {
+    if(req.currentUser){
+    	res.render('farming');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
+router.get('/harvest', function(req, res) {
+    if(req.currentUser){
+    	res.render('harvest');
+    }else{
+    	res.redirect('../login');
+    }
+});
+
+router.get('/resume', function(req, res) {
+    if(req.currentUser){
+    	res.render('resume');
     }else{
     	res.redirect('../login');
     }

@@ -10,6 +10,7 @@ var admin=require('./routes/admin');
 var users = require('./routes/users');
 var api=require('./routes/api');
 var app = express();
+var dataTable=require('./routes/datatable');
 
 // 设置模板引擎
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +40,7 @@ app.get('/logout',function(req,res){
     return res.redirect('login');
 });
 
+app.use('/api/json',dataTable);
 app.use('/api',api);
 app.use('/login', users);
 app.use('/admin',admin);

@@ -1,0 +1,131 @@
+<%include header%>
+<div class="tpl-content-wrapper">
+            <div class="tpl-content-page-title">
+                远程监控
+            </div>
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">视频列表</a></li>
+                <li class="am-active">蔬菜大棚</li>
+            </ol>
+            <div class="tpl-portlet-components">
+
+                <div class="tpl-block">
+                    <div class="am-u-md-6 am-u-sm-12 row-mb">
+                        <div class="tpl-portlet">
+                            <div class="tpl-portlet-title">
+                                <div class="tpl-caption font-green ">
+                                    <span>视频区域</span>
+                                </div>
+
+                            </div>
+
+                            <div class="am-tabs tpl-index-tabs" data-am-tabs>
+                                <ul class="am-tabs-nav am-nav am-nav-tabs">
+                                    <li class="am-active"><a href="#tab1">试验大棚</a></li>
+                                    <li><a href="#tab2">草莓大棚</a></li>
+                                    <li><a href="#tab3">蔬菜大棚</a></li>
+                                </ul>
+
+                                <div class="am-tabs-bd">
+                                    <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                                        <div id="wrapperA" class="wrapper">
+                                            <div id="scroller" class="scroller">
+                                                <ul class="tpl-task-list tpl-task-remind">
+                                                  <% for(var i=0; i<data.length; i++) {%>
+                                                       <%if(data[i].get('tab')==1){%>
+                                                  <li>
+                                                      <div class="cosA">
+                                                            <span class="cosIco">
+                                                              <i class="am-icon-video-camera"></i>
+                                                            </span>
+                                                            <%= data[i].get('name') %>
+                                                            <%if(data[i].get('status')==1){%>
+                                                            <span class="font-green">在线<%}else{%>
+                                                            <span class="font-red">离线<%}%>
+                                                            <span class="tpl-label-info"> 点击播放
+                                                                <i class="am-icon-play-circle"></i>
+                                                            </span></span>
+                                                        </div>
+                                                  </li>
+                                                  <% } }%>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="am-tab-panel am-fade" id="tab2">
+                                        <div id="wrapperB" class="wrapper">
+                                            <div id="scroller" class="scroller">
+                                                <ul class="tpl-task-list tpl-task-remind">
+                                                    <li>
+                                                        <div class="cosB">
+                                                            12分钟前
+                                                        </div>
+                                                        <div class="cosA">
+                                                            <span class="cosIco">
+                                                                <i class="am-icon-bell-o"></i>
+                                                              </span>
+
+                                                            <span> 注意：Chrome 和 Firefox 下， display: inline-block; 或 display: block; 的元素才会应用旋转动画。<span class="tpl-label-info"> 提取文件
+                                                                <i class="am-icon-share"></i>
+                                                            </span></span>
+                                                        </div>
+
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="am-tab-panel am-fade" id="tab3">
+                                        <div id="wrapperB" class="wrapper">
+                                            <div id="scroller" class="scroller">
+                                                <ul class="tpl-task-list tpl-task-remind">
+                                                    <li>
+                                                        <div class="cosB">
+                                                            12分钟前
+                                                        </div>
+                                                        <div class="cosA">
+                                                            <span class="cosIco">
+                                                                <i class="am-icon-bell-o"></i>
+                                                              </span>
+
+                                                            <span> 注意：Chrome 和 Firefox 下， display: inline-block; 或 display: block; 的元素才会应用旋转动画。<span class="tpl-label-info"> 提取文件
+                                                                <i class="am-icon-share"></i>
+                                                            </span></span>
+                                                        </div>
+
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+</div>
+<div class="tpl-alert"></div>
+</div>
+
+</div>
+
+</div>
+
+
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+
+    </script>
+</body>
+
+</html>

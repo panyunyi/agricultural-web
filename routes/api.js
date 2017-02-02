@@ -24,6 +24,7 @@ router.get('/getToken', function(req, res) {
 
 router.get('/greenhouse', function(req, res) {
     let query = new AV.Query('greenhouse');
+    query.include('isDel',false);
     query.find().then(function(results) {
         result['data']=results;
         res.jsonp(result)

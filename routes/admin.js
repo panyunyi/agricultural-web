@@ -10,25 +10,13 @@ router.get('/', function(req, res) {
     }
 });
 
-router.get('/video1', function(req, res) {
+router.get('/videolist', function(req, res) {
     if(req.currentUser){
-    	res.render('videolist1');
-    }else{
-    	res.redirect('../login');
-    }
-});
-
-router.get('/video2', function(req, res) {
-    if(req.currentUser){
-    	res.render('videolist2');
-    }else{
-    	res.redirect('../login');
-    }
-});
-
-router.get('/video3', function(req, res) {
-    if(req.currentUser){
-    	res.render('videolist3');
+        let query=new AV.Query('video');
+        query.include('isDel',false);
+        query.find().then(function(results){
+            res.render('videolist',{data:results});
+        });
     }else{
     	res.redirect('../login');
     }

@@ -790,20 +790,20 @@
         var socket=io.connect('http://14961rg045.iask.in:35790');
         socket.on('info',function(data){
             //console.log(data);
-            var arr=data.split(',');
+            var arr=data.shucai;
             $('#temp').html(parseFloat(arr[0]).toFixed(2)+"℃");
             $('#wet').html(parseFloat(arr[1]).toFixed(1)+"%");
             $('#co2').html(parseFloat(arr[2]).toFixed(1)+"PPM");
             $('#ph').html(parseFloat(arr[3]).toFixed(1));
             $('#light').html(parseFloat(arr[4])+"Lux");
             $('#soild').html(parseFloat(arr[5]).toFixed(1)+"%");
-
-            $('#temp2').html(parseFloat(arr[6]).toFixed(2)+"℃");
-            $('#wet2').html(parseFloat(arr[7]).toFixed(1)+"%");
-            $('#co22').html(parseFloat(arr[8]).toFixed(1)+"PPM");
-            $('#ph2').html(parseFloat(arr[9]).toFixed(1));
-            $('#light2').html(parseFloat(arr[10])+"Lux");
-            $('#soild2').html(parseFloat(arr[11]).toFixed(1)+"%");
+            var arr1=data.caomei;
+            $('#temp2').html(parseFloat(arr1[0]).toFixed(2)+"℃");
+            $('#wet2').html(parseFloat(arr1[1]).toFixed(1)+"%");
+            $('#co22').html(parseFloat(arr1[2]).toFixed(1)+"PPM");
+            $('#ph2').html(parseFloat(arr1[3]).toFixed(1));
+            $('#light2').html(parseFloat(arr1[4])+"Lux");
+            $('#soild2').html(parseFloat(arr1[5]).toFixed(1)+"%");
         });
         socket.on('limit1',function(data){
             //console.log(data);

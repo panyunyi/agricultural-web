@@ -21,7 +21,13 @@ router.get('/videolist', function(req, res) {
     	res.redirect('../login');
     }
 });
-
+router.get('/videolist1', function(req, res) {
+    if(req.currentUser){
+    	res.render('videolist1');
+    }else{
+    	res.redirect('../login');
+    }
+});
 router.get('/chart', function(req, res) {
     if(req.currentUser){
     	res.render('chart');

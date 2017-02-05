@@ -6,7 +6,7 @@
             <ol class="am-breadcrumb">
                 <li><a href="#" class="am-icon-home">首页</a></li>
                 <li><a href="#">视频列表</a></li>
-                <li class="am-active">蔬菜大棚</li>
+                <li id="title" class="am-active">视频</li>
             </ol>
             <div class="tpl-portlet-components">
 
@@ -41,11 +41,12 @@
                                                             </span>
                                                             <%= data[i].get('name') %>
                                                             <%if(data[i].get('status')==1){%>
-                                                            <span class="font-green">在线<%}else{%>
-                                                            <span class="font-red">离线<%}%>
-                                                            <span class="tpl-label-info"> 点击播放
+                                                            <span class="video-status font-green">在线<%}else{%>
+                                                            <span class="video-status font-red">离线<%}%>
+                                                            </span>
+                                                            <span onclick="play('<%= data[i].get('liveAddress') %>')" data-am-modal="{target: '#video-modal',width: 800, height: 510}" style="float:right" class="tpl-label-info"> 点击播放
                                                                 <i class="am-icon-play-circle"></i>
-                                                            </span></span>
+                                                            </span>
                                                         </div>
                                                   </li>
                                                   <% } }%>
@@ -57,21 +58,24 @@
                                         <div id="wrapperB" class="wrapper">
                                             <div id="scroller" class="scroller">
                                                 <ul class="tpl-task-list tpl-task-remind">
+                                                    <% for(var i=0; i<data.length; i++) {%>
+                                                         <%if(data[i].get('tab')==2){%>
                                                     <li>
-                                                        <div class="cosB">
-                                                            12分钟前
-                                                        </div>
                                                         <div class="cosA">
-                                                            <span class="cosIco">
-                                                                <i class="am-icon-bell-o"></i>
+                                                              <span class="cosIco">
+                                                                <i class="am-icon-video-camera"></i>
                                                               </span>
-
-                                                            <span> 注意：Chrome 和 Firefox 下， display: inline-block; 或 display: block; 的元素才会应用旋转动画。<span class="tpl-label-info"> 提取文件
-                                                                <i class="am-icon-share"></i>
-                                                            </span></span>
-                                                        </div>
-
+                                                              <%= data[i].get('name') %>
+                                                              <%if(data[i].get('status')==1){%>
+                                                              <span class="video-status font-green">在线<%}else{%>
+                                                              <span class="video-status font-red">离线<%}%>
+                                                              </span>
+                                                              <span onclick="play('<%= data[i].get('liveAddress') %>')" data-am-modal="{target: '#video-modal',width: 800, height: 510}" style="float:right" class="tpl-label-info"> 点击播放
+                                                                  <i class="am-icon-play-circle"></i>
+                                                              </span>
+                                                          </div>
                                                     </li>
+                                                    <% } }%>
 
                                                 </ul>
                                             </div>
@@ -81,22 +85,24 @@
                                         <div id="wrapperB" class="wrapper">
                                             <div id="scroller" class="scroller">
                                                 <ul class="tpl-task-list tpl-task-remind">
+                                                    <% for(var i=0; i<data.length; i++) {%>
+                                                         <%if(data[i].get('tab')==3){%>
                                                     <li>
-                                                        <div class="cosB">
-                                                            12分钟前
-                                                        </div>
                                                         <div class="cosA">
-                                                            <span class="cosIco">
-                                                                <i class="am-icon-bell-o"></i>
+                                                              <span class="cosIco">
+                                                                <i class="am-icon-video-camera"></i>
                                                               </span>
-
-                                                            <span> 注意：Chrome 和 Firefox 下， display: inline-block; 或 display: block; 的元素才会应用旋转动画。<span class="tpl-label-info"> 提取文件
-                                                                <i class="am-icon-share"></i>
-                                                            </span></span>
-                                                        </div>
-
+                                                              <%= data[i].get('name') %>
+                                                              <%if(data[i].get('status')==1){%>
+                                                              <span class="video-status font-green">在线<%}else{%>
+                                                              <span class="video-status font-red">离线<%}%>
+                                                              </span>
+                                                              <span onclick="play('<%= data[i].get('liveAddress') %>')" data-am-modal="{target: '#video-modal',width: 800, height: 510}" style="float:right" class="tpl-label-info"> 点击播放
+                                                                  <i class="am-icon-play-circle"></i>
+                                                              </span>
+                                                          </div>
                                                     </li>
-
+                                                    <% } }%>
                                                 </ul>
                                             </div>
                                         </div>
@@ -111,6 +117,15 @@
 
             </div>
 </div>
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="video-modal">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd"><span id="modal-title" ></span>
+      <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+    </div>
+    <div id="videoPlay" class="am-modal-bd" style="width: 800px;height: 500px;">
+    </div>
+  </div>
+</div>
 <div class="tpl-alert"></div>
 </div>
 
@@ -123,8 +138,21 @@
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/amazeui.min.js"></script>
     <script src="../assets/js/app.js"></script>
+    <script src="../ckplayer/ckplayer.js"></script>
     <script>
-
+        function play(url){
+            var flashvars;
+            flashvars={
+                f: '../ckplayer/m3u8.swf',
+                a: url, //此处填写购买获取到的视频播放地址
+                c: 0,
+                p: 1,
+                s: 4,
+                lv: 1
+            };
+            var params = {bgcolor: '#FFF', allowFullScreen: true, allowScriptAccess: 'always', wmode: 'transparent'};
+            CKobject.embedSWF("../ckplayer/ckplayer.swf", "videoPlay", "video", "100%", "100%", flashvars, params);
+        }
     </script>
 </body>
 

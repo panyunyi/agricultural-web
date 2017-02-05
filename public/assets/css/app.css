@@ -1363,10 +1363,6 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
     margin-bottom: 7px;
 }
 
-.tpl-task-remind li .cosA {
-    margin-right: 80px;
-}
-
 .tpl-task-remind li .cosB {
     float: right;
     width: 75px;
@@ -1967,4 +1963,8 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
     .tpl-content-wrapper {
         padding-left: 0;
     }
+}
+
+.video-status{
+    margin-left: 10px;
 }

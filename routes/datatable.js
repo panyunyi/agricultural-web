@@ -5,7 +5,8 @@ var async=require('async');
 
 router.get('/greenhouse', function(req, res, next) {
     let query = new AV.Query('greenhouse');
-    query.include('isDel',false);
+    query.equalTo('isDel',false);
+    query.ascending('tab');
     query.find().then(function(results){
         async.map(results,function(result,callback){
             result.set('DT_RowId',result.id);
@@ -28,6 +29,7 @@ var Greenhouse = AV.Object.extend('greenhouse');
 router.post('/greenhouse/add',function(req,res){
     var arr=req.body;
     var greenhouse=new Greenhouse();
+    greenhouse.set('tab',arr['data[0][tab]']?arr['data[0][tab]']*1:0);
     greenhouse.set('name',arr['data[0][name]']);
     greenhouse.set('crop',arr['data[0][crop]'].split(','));
     greenhouse.set('totalArea',arr['data[0][totalArea]']?arr['data[0][totalArea]']*1:1);
@@ -51,6 +53,7 @@ router.put('/greenhouse/edit/:id',function(req,res){
     var arr=req.body;
     var id=req.params.id;
     var greenhouse = AV.Object.createWithoutData('greenhouse', id);
+    greenhouse.set('tab',arr['data['+id+'][tab]']?arr['data['+id+'][tab]']*1:0);
     greenhouse.set('name',arr['data['+id+'][name]']);
     greenhouse.set('crop',arr['data['+id+'][crop]'].split(','));
     greenhouse.set('totalArea',arr['data['+id+'][totalArea]']?arr['data['+id+'][totalArea]']*1:1);
@@ -83,7 +86,7 @@ router.get('/video', function(req, res, next) {
     let resdata={};
     function promise1(callback){
         let query = new AV.Query('video');
-        query.include('isDel',false);
+        query.equalTo('isDel',false);
         query.include('greenhouse');
         query.find().then(function(results){
             async.map(results,function(result,callback1){
@@ -103,7 +106,7 @@ router.get('/video', function(req, res, next) {
     }
     function promise2(callback){
         let query=new AV.Query('greenhouse');
-        query.include('isDel',false);
+        query.equalTo('isDel',false);
         query.ascending('tab');
         query.find().then(function(results){
             async.map(results,function(result,callback1){

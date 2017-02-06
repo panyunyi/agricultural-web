@@ -16,7 +16,18 @@
                     </div>
                 </div>
                 <div class="tpl-block">
-
+                    <table id="table" class="ui celled table" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>农事</th>
+                                <th>状态</th>
+                                <th>大棚</th>
+                                <th>农作物</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
 
             </div>
@@ -28,6 +39,102 @@
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/amazeui.min.js"></script>
     <script src="../assets/js/app.js"></script>
+    <!-- dataTables  -->
+    <script src="../assets/js/semantic.min.js"></script>
+    <script src="../assets/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/js/dataTables.semanticui.min.js"></script>
+    <script src="../assets/js/dataTables.buttons.min.js"></script>
+    <script src="../assets/js/buttons.semanticui.min.js"></script>
+    <script src="../assets/js/dataTables.select.min.js"></script>
+    <script src="../assets/js/dataTables.editor.min.js"></script>
+    <script src="../assets/js/editor.semanticui.min.js"></script>
+    <script>
+    var editor;
+    $(document).ready(function() {
+            editor = new $.fn.dataTable.Editor( {
+            ajax: {
+                create: {
+                    type: 'POST',
+                    url:  '../api/json/farming/add'
+                },
+                edit: {
+                    type: 'PUT',
+                    url:  '../api/json/farming/edit/_id_'
+                },
+                remove: {
+                    type: 'DELETE',
+                    url:  '../api/json/farming/remove/_id_'
+                }
+            },
+            table: "#table",
+            fields: [
+                { label: '农事', name: 'name' },
+                { label: '状态',  name: 'status' },
+                { label: '大棚',  name: 'greenhouse',type:'select' },
+                { label: '农作物',  name: 'crop',type:'select' },
+                { label: '备注',  name: 'remark' }
+            ],i18n: {
+                    create: {
+                        button: "新增",
+                        title:  "新建农事",
+                        submit: "创建"
+                    },
+                    edit: {
+                        button: "编辑",
+                        title:  "农事记录修改",
+                        submit: "更新"
+                    },
+                    remove: {
+                        button: "删除",
+                        title:  "删除",
+                        submit: "删除",
+                        confirm: {
+                            _: "确定要删除 %d 条吗?",
+                            1: "确定要删除这条数据吗?"
+                        }
+                    }
+                }
+        } );
+
+        var table= $('#table').DataTable( {
+            "processing": true,
+            stateSave: true,
+            "dom": '<"top"Brf>t<"bottom"ilp>',
+            "ajax": '../api/json/farming',
+            "columns": [
+                {"data":null},
+                { "data": "name" },
+                { "data": "status"},
+                { "data": "greenhousename" },
+                { "data": "crop" },
+                { "data": "remark"}
+            ],
+            select:true,
+            buttons: [
+            { extend: "create", editor: editor },
+            { extend: "edit",  editor: editor },
+            { extend: "remove", editor: editor }
+            ] ,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }],
+            "order": [[1, 'asc']],
+            "language": {
+                "url": "../assets/css/zh_CN.txt"
+            }
+        });
+        table.on('order.dt search.dt',function() {
+                    table.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function(cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+        });
+    </script>
     <script type="text/javascript">
         $('#farm').siblings('.tpl-left-nav-sub-menu').slideToggle(80)
             .end()

@@ -242,6 +242,137 @@ router.post('/crop/add',function(req,res){
 router.put('/crop/edit/:id',function(req,res){
     var arr=req.body;
     var id=req.params.id;
+    var crop=AV.Object.createWithoutData('crop', id);
+    crop.set('name',arr['data['+id+'][name]']);
+    crop.set('info',arr['data['+id+'][info]']);
+    crop.set('nutrition',arr['data['+id+'][nutrition]']);
+    crop.set('cooking',arr['data['+id+'][cooking]']);
+    var greenhouse=AV.Object.createWithoutData('greenhouse', arr['data['+id+'][greenhouse]']);
+    crop.set('greenhouse',greenhouse);
+    crop.set('isDel',false);
+    crop.save().then(function(pro){
+        var data=[];
+        pro.set('DT_RowId',pro.id);
+        greenhouse.fetch().then(function(){
+            pro.set('greenhouse',greenhouse.id);
+            pro.set('greenhousename',greenhouse.get('name'));
+            data.push(pro);
+            res.jsonp({"data":data});
+        });
+    },function(error){
+        console.log(error);
+    });
+});
+
+router.delete('/crop/remove/:id',function(req,res){
+    var id=req.params.id;
+    var crop = AV.Object.createWithoutData('crop', id);
+    crop.set('isDel',true);
+    crop .save().then(function(){
+        res.jsonp({"data":[]});
+    });
+});
+
+router.get('/farming', function(req, res, next) {
+    let resdata={};
+    function promise1(callback){
+        let query = new AV.Query('farming');
+        query.equalTo('isDel',false);
+        //query.include('greenhouse');
+        //query.include('crop');
+        query.find().then(function(results){
+            async.map(results,function(result,callback1){
+                result.set('DT_RowId',result.id);
+                result.set('name',result.get('name')?result.get('name'):"");
+                result.set('status',result.get('status')?"已完成":"进行中");
+                result.set('remark',result.get('remark')?result.get('remark'):"");
+                //result.set('greenhousename',result.get('greenhouse').get('name'));
+                //result.set('greenhouse',result.get('greenhouse').id);
+                //result.set('crop',result.get('crop').id);
+                //result.set('cropname',result.get('crop').get('name'));
+                callback1(null,result);
+            },function(err,data){
+                resdata["data"]=data;
+                callback(null,data);
+            });
+        });
+    }
+    function promise2(callback){
+        let query=new AV.Query('greenhouse');
+        query.equalTo('isDel',false);
+        query.ascending('tab');
+        query.find().then(function(results){
+            async.map(results,function(result,callback1){
+                result.set('label',result.get('name'));
+                result.set('value',result.id);
+                callback1(null,result);
+            },function(err,data){
+                data={"greenhouse":data};
+                resdata["options"]=data;
+                console.log(2);
+                callback(null,data);
+            });
+        });
+    }
+    function promise3(callback){
+        let query=new AV.Query('crop');
+        query.equalTo('isDel',false);
+        query.ascending('createdAt');
+        query.find().then(function(results){
+            async.map(results,function(result,callback1){
+                result.set('label',result.get('name'));
+                result.set('value',result.id);
+                callback1(null,result);
+            },function(err,data){
+                data={"crop":data};
+                resdata["options"]=data;
+                console.log(3);
+                callback(null,data);
+            });
+        });
+    }
+    async.parallel([
+        function (callback){
+            promise1(callback);
+        },
+        function (callback){
+            promise2(callback);
+        },
+        function (callback){
+            promise3(callback);
+        }],function(err,results){
+            res.jsonp(resdata);
+    });
+});
+
+var Crop = AV.Object.extend('crop');
+router.post('/crop/add',function(req,res){
+    var arr=req.body;
+    var crop=AV.Object.createWithoutData('video', id);
+    crop.set('name',arr['data[0][name]']);
+    crop.set('info',arr['data[0][info]']);
+    crop.set('nutrition',arr['data[0][nutrition]']);
+    crop.set('cooking',arr['data[0][cooking]']);
+    var greenhouse=AV.Object.createWithoutData('greenhouse', arr['data[0][greenhouse]']);
+    crop.set('greenhouse',greenhouse);
+    crop.set('isDel',false);
+    crop.save().then(function(pro){
+        var data=[];
+        pro.set('DT_RowId',pro.id);
+        greenhouse.fetch().then(function(){
+            pro.set('greenhouse',greenhouse.id);
+            pro.set('greenhousename',greenhouse.get('name'));
+            data.push(pro);
+            res.jsonp({"data":data});
+        });
+    },function(error){
+        console.log(error);
+    });
+});
+
+router.put('/crop/edit/:id',function(req,res){
+    var arr=req.body;
+    var id=req.params.id;
     var crop=new Crop();
     crop.set('name',arr['data['+id+'][name]']);
     crop.set('info',arr['data['+id+'][info]']);

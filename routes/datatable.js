@@ -24,6 +24,61 @@ router.get('/greenhouse', function(req, res, next) {
     });
 });
 
+var Greenhouse = AV.Object.extend('greenhouse');
+router.post('/greenhouse/add',function(req,res){
+    var arr=req.body;
+    var greenhouse=new Greenhouse();
+    greenhouse.set('name',arr['data[0][name]']);
+    greenhouse.set('crop',arr['data[0][crop]'].split(','));
+    greenhouse.set('totalArea',arr['data[0][totalArea]']?arr['data[0][totalArea]']*1:1);
+    greenhouse.set('device',arr['data[0][device]'].split(','));
+    greenhouse.set('plantArea',arr['data[0][plantArea]']?arr['data[0][plantArea]']*1:0);
+    greenhouse.set('unusedArea',arr['data[0][unusedArea]']?arr['data[0][unusedArea]']*1:0);
+    greenhouse.set('switch',arr['data[0][switch]'].split(','));
+    greenhouse.set('video',arr['data[0][video]'].split(','));
+    greenhouse.set('isDel',false);
+    greenhouse.save().then(function(pro){
+        var data=[];
+        pro.set('DT_RowId',pro.id);
+        data.push(pro);
+        res.jsonp({"data":data});
+    },function(error){
+        console.log(error);
+    });
+});
+
+router.put('/greenhouse/edit/:id',function(req,res){
+    var arr=req.body;
+    var id=req.params.id;
+    var greenhouse = AV.Object.createWithoutData('greenhouse', id);
+    greenhouse.set('name',arr['data['+id+'][name]']);
+    greenhouse.set('crop',arr['data['+id+'][crop]'].split(','));
+    greenhouse.set('totalArea',arr['data['+id+'][totalArea]']?arr['data['+id+'][totalArea]']*1:1);
+    greenhouse.set('device',arr['data['+id+'][device]'].split(','));
+    greenhouse.set('plantArea',arr['data['+id+'][plantArea]']?arr['data['+id+'][plantArea]']*1:0);
+    greenhouse.set('unusedArea',arr['data['+id+'][unusedArea]']?arr['data['+id+'][unusedArea]']*1:0);
+    greenhouse.set('switch',arr['data['+id+'][switch]'].split(','));
+    greenhouse.set('video',arr['data['+id+'][video]'].split(','));
+    greenhouse.set('isDel',false);
+    greenhouse.save().then(function(pro){
+        var data=[];
+        pro.set('DT_RowId',pro.id);
+        data.push(pro);
+        res.jsonp({"data":data});
+    },function(error){
+        console.log(error);
+    });
+});
+
+router.delete('/greenhouse/remove/:id',function(req,res){
+    var id=req.params.id;
+    var greenhouse = AV.Object.createWithoutData('greenhouse', id);
+    greenhouse.set('isDel',true);
+    greenhouse .save().then(function(){
+        res.jsonp({"data":[]});
+    });
+});
+
 router.get('/video', function(req, res, next) {
     let resdata={};
     function promise1(callback){
@@ -71,10 +126,6 @@ router.get('/video', function(req, res, next) {
         }],function(err,results){
             res.jsonp(resdata);
     });
-});
-
-router.post('/video',function(req,res){
-    console.log(req.body);
 });
 
 router.put('/video/edit/:id',function(req,res){

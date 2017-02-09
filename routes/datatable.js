@@ -278,8 +278,8 @@ router.get('/farming', function(req, res, next) {
     function promise1(callback){
         let query = new AV.Query('farming');
         query.equalTo('isDel',false);
-        //query.include('greenhouse');
-        //query.include('crop');
+        query.include('greenhouse');
+        query.include('crop');
         query.find().then(function(results){
             async.map(results,function(result,callback1){
                 result.set('DT_RowId',result.id);
@@ -307,9 +307,6 @@ router.get('/farming', function(req, res, next) {
                 result.set('value',result.id);
                 callback1(null,result);
             },function(err,data){
-                data={"greenhouse":data};
-                resdata["options"]=data;
-                console.log(2);
                 callback(null,data);
             });
         });
@@ -324,9 +321,6 @@ router.get('/farming', function(req, res, next) {
                 result.set('value',result.id);
                 callback1(null,result);
             },function(err,data){
-                data={"crop":data};
-                resdata["options"]=data;
-                console.log(3);
                 callback(null,data);
             });
         });
@@ -341,14 +335,15 @@ router.get('/farming', function(req, res, next) {
         function (callback){
             promise3(callback);
         }],function(err,results){
+            resdata["options"]=Object.assign({"greenhouse":results[1]},{"crop":results[2]});
             res.jsonp(resdata);
     });
 });
 
-var Crop = AV.Object.extend('crop');
-router.post('/crop/add',function(req,res){
+var Farming = AV.Object.extend('farming');
+router.post('/farming/add',function(req,res){
     var arr=req.body;
-    var crop=AV.Object.createWithoutData('video', id);
+    var crop=AV.Object.createWithoutData('farming', id);
     crop.set('name',arr['data[0][name]']);
     crop.set('info',arr['data[0][info]']);
     crop.set('nutrition',arr['data[0][nutrition]']);
@@ -370,7 +365,7 @@ router.post('/crop/add',function(req,res){
     });
 });
 
-router.put('/crop/edit/:id',function(req,res){
+router.put('/farming/edit/:id',function(req,res){
     var arr=req.body;
     var id=req.params.id;
     var crop=new Crop();
@@ -378,8 +373,8 @@ router.put('/crop/edit/:id',function(req,res){
     crop.set('info',arr['data['+id+'][info]']);
     crop.set('nutrition',arr['data['+id+'][nutrition]']);
     crop.set('cooking',arr['data['+id+'][cooking]']);
-    var greenhouse=AV.Object.createWithoutData('greenhouse', arr['data['+id+'][greenhouse]']);
-    crop.set('greenhouse',greenhouse);
+    var farming=AV.Object.createWithoutData('farming', arr['data['+id+'][farming]']);
+    crop.set('farming',farming);
     crop.set('isDel',false);
     crop.save().then(function(pro){
         var data=[];
@@ -395,9 +390,9 @@ router.put('/crop/edit/:id',function(req,res){
     });
 });
 
-router.delete('/crop/remove/:id',function(req,res){
+router.delete('/farming/remove/:id',function(req,res){
     var id=req.params.id;
-    var crop = AV.Object.createWithoutData('crop', id);
+    var crop = AV.Object.createWithoutData('farming', id);
     crop.set('isDel',true);
     crop .save().then(function(){
         res.jsonp({"data":[]});

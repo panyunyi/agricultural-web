@@ -104,13 +104,7 @@
                                     </tr>
                                     <tr>
                                         <td class="user-name">手动或自动状态</td>
-                                        <td class="font-red bold" ><div class="tpl-switch">
-                                            <input disabled type="checkbox" id="switch8" class="ios-switch bigswitch tpl-switch-btn"/>
-                                            <div class="tpl-switch-btn-view">
-                                                <div>
-                                                </div>
-                                            </div>
-                                        </div></td>
+                                        <td class="font-red bold" id="switch8"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -207,13 +201,7 @@
                                     </tr>
                                     <tr>
                                         <td class="user-name">手动或自动状态</td>
-                                        <td class="font-red bold" ><div class="tpl-switch">
-                                            <input disabled type="checkbox" id="switch16" class="ios-switch bigswitch tpl-switch-btn"/>
-                                            <div class="tpl-switch-btn-view">
-                                                <div>
-                                                </div>
-                                            </div>
-                                        </div></td>
+                                        <td class="font-red bold" id="switch16"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -583,6 +571,10 @@
                 changeState('#switch'+(i+1),arr[i]);
                 //$('#switch'+(i+1)).html(arr[i]?"开":"关");
             }
+            $('#switch8').html(arr[7]?"开":"关");
+            changeColor('#switch8',arr[7]);
+            $('#switch16').html(arr[15]?"开":"关");
+            changeColor('#switch16',arr[15]);
             if(arr[7]){
                 for(var i=0;i<7;i++){
                     changeEnable('#switch'+(i+1),true);

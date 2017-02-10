@@ -42,6 +42,8 @@ router.get('/crop', function(req, res) {
         });
         result['data']=results;
         res.jsonp(result)
+    },function(error){
+        console.log(error);
     });
 });
 

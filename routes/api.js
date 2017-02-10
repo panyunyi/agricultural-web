@@ -58,9 +58,19 @@ router.get('/video', function(req, res) {
     });
 });
 
-router.get('/farming', function(req, res) {
+router.get('/farming/:greenhouse/:user/:unit', function(req, res) {
     let query = new AV.Query('farming');
+    let start=moment().startOf(req.params.unit);
+    let end=moment().endOf(req.params.unit);
     query.equalTo('isDel',false);
+    console.log(new Date(start));
+    console.log(new Date(end));
+    query.greaterThanOrEqualTo('startTime',new Date(start));
+    query.lessThanOrEqualTo('startTime',new Date(end));
+    let greenhouse=AV.Object.createWithoutData('greenhouse', req.params.greenhouse);
+    let user=AV.Object.createWithoutData('_User', req.params.user);
+    query.equalTo('user',user);
+    query.equalTo('greenhouse',greenhouse);
     query.include('greenhouse');
     query.include('crop');
     query.include('user');
@@ -69,6 +79,10 @@ router.get('/farming', function(req, res) {
             result.set('greenhouse',result.get('greenhouse').get('name'));
             result.set('crop',result.get('crop').get('name'));
             result.set('user',result.get('user').get('name'));
+            result.set('startTime',result.get('startTime')?new moment(result.get('startTime')).format('YYYY-MM-DD HH:mm:ss'):"");
+            result.set('endTime',result.get('startTime')?new moment(result.get('endTime')).format('YYYY-MM-DD HH:mm:ss'):"");
+            result.set('info',result.get('info')?result.get('info'):"");
+            result.set('remark',result.get('remark')?result.get('remark'):"");
         });
         result['data']=results;
         res.jsonp(result)
@@ -78,6 +92,8 @@ router.get('/farming', function(req, res) {
 var Farming=AV.Object.extend('farming');
 router.post('/farming', function(req, res) {
     let arr=req.body;
+    console.log(arr);
+    console.log(req.body);
     let farm=new Farming();
     let greenhouse=AV.Object.createWithoutData('greenhouse', arr.greenhouse);
     let crop=AV.Object.createWithoutData('crop', arr.crop);
@@ -106,6 +122,7 @@ router.get('/farming/:id/:time', function(req, res) {
     let time=req.params.time;
     let farm=AV.Object.createWithoutData('farming', id);
     farm.set('endTime',new Date(time));
+    farm.set('status',true);
     farm.save().then(function(f){
         f.set('endTime',new moment(f.get('endTime')).format('YYYY-MM-DD HH:mm:ss'));
         result['data']=f;

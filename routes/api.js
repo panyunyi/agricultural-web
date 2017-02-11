@@ -4,6 +4,7 @@ const utils=require('utility');
 var request=require('request-json');
 var AV = require('leanengine');
 var moment=require('moment');
+moment.locale('zh-cn');
 var result={
     status:200,
     message:"",
@@ -65,8 +66,6 @@ router.get('/farming/:greenhouse/:user/:unit', function(req, res) {
     let start=moment().startOf(req.params.unit);
     let end=moment().endOf(req.params.unit);
     query.equalTo('isDel',false);
-    console.log(new Date(start));
-    console.log(new Date(end));
     query.greaterThanOrEqualTo('startTime',new Date(start));
     query.lessThanOrEqualTo('startTime',new Date(end));
     let greenhouse=AV.Object.createWithoutData('greenhouse', req.params.greenhouse);
@@ -94,8 +93,6 @@ router.get('/farming/:greenhouse/:user/:unit', function(req, res) {
 var Farming=AV.Object.extend('farming');
 router.post('/farming', function(req, res) {
     let arr=req.body;
-    console.log(arr);
-    console.log(req.body);
     let farm=new Farming();
     let greenhouse=AV.Object.createWithoutData('greenhouse', arr.greenhouse);
     let crop=AV.Object.createWithoutData('crop', arr.crop);
@@ -119,7 +116,6 @@ router.post('/farming', function(req, res) {
 });
 
 router.get('/farming/:id/:time', function(req, res) {
-    //let arr=req.body;
     let id=req.params.id;
     let time=req.params.time;
     let farm=AV.Object.createWithoutData('farming', id);

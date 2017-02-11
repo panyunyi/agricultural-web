@@ -246,22 +246,26 @@
                                     <div id="wrapperA" class="wrapper">
                                         <div id="scroller" class="scroller">
                                             <ul class="tpl-task-list tpl-task-remind">
+                                                <% for(var i=0; i<data.length; i++) {%>
+                                                     <%if(!data[i].get('status')){%>
                                                 <li>
                                                     <div class="cosB">
-                                                        12分钟前
+                                                        <%=data[i].get('time')%>
                                                     </div>
                                                     <div class="cosA">
                                                         <span class="cosIco">
-                        <i class="am-icon-bell-o"></i>
-                      </span>
-
-                                                        <span> 注意：Chrome 和 Firefox 下， display: inline-block; 或 display: block; 的元素才会应用旋转动画。<span class="tpl-label-info"> 提取文件
-                                                            <i class="am-icon-share"></i>
-                                                        </span></span>
+                                                            <i class="am-icon-tag"></i>
+                                                          </span>
+                                                        <span>
+                                                            <%=data[i].get('user')%>
+                                                            在<%=data[i].get('greenhouse')%>
+                                                            给<%=data[i].get('crop')%>
+                                                            <%=data[i].get('name')%>
+                                                        </span>
                                                     </div>
 
                                                 </li>
-
+                                                <% } }%>
                                             </ul>
                                         </div>
                                     </div>
@@ -270,22 +274,26 @@
                                     <div id="wrapperB" class="wrapper">
                                         <div id="scroller" class="scroller">
                                             <ul class="tpl-task-list tpl-task-remind">
+                                                <% for(var i=0; i<data.length; i++) {%>
+                                                     <%if(data[i].get('status')){%>
                                                 <li>
                                                     <div class="cosB">
-                                                        12分钟前
+                                                        <%=data[i].get('time')%>
                                                     </div>
                                                     <div class="cosA">
                                                         <span class="cosIco">
-                        <i class="am-icon-bell-o"></i>
-                      </span>
-
-                                                        <span> 注意：Chrome 和 Firefox 下， display: inline-block; 或 display: block; 的元素才会应用旋转动画。<span class="tpl-label-info"> 提取文件
-                                                            <i class="am-icon-share"></i>
-                                                        </span></span>
+                                                            <i class="am-icon-tag"></i>
+                                                          </span>
+                                                        <span>
+                                                            <%=data[i].get('user')%>
+                                                            在<%=data[i].get('greenhouse')%>
+                                                            已给<%=data[i].get('crop')%>
+                                                            <%=data[i].get('name')%>
+                                                        </span>
                                                     </div>
 
                                                 </li>
-                                                
+                                                <% } }%>
                                             </ul>
                                         </div>
                                     </div>

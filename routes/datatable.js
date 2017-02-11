@@ -3,6 +3,7 @@ var router = require('express').Router();
 var AV = require('leanengine');
 var async=require('async');
 var moment=require('moment');
+moment.locale('zh-cn');
 
 router.get('/greenhouse', function(req, res, next) {
     let query = new AV.Query('greenhouse');

@@ -208,7 +208,7 @@
                     <div class="tpl-portlet">
                         <div class="tpl-portlet-title">
                             <div class="tpl-caption font-green ">
-                                <i class="am-icon-cloud-download"></i>
+                                <i class="am-icon-line-chart"></i>
                                 <span> Cloud 数据统计</span>
                             </div>
                             <div class="actions">
@@ -221,7 +221,7 @@
                         </div>
 
                         <!--此部分数据请在 js文件夹下中的 app.js 中的 “百度图表A” 处修改数据 插件使用的是 百度echarts-->
-                        <div class="tpl-echarts" id="tpl-echarts-A">
+                        <div class="tpl-echarts" id="echarts">
 
                         </div>
                     </div>
@@ -230,6 +230,7 @@
                     <div class="tpl-portlet">
                         <div class="tpl-portlet-title">
                             <div class="tpl-caption font-green ">
+                                <i id="flag" class="am-icon-calendar-plus-o"></i>
                                 <span>农事进度</span>
                             </div>
 
@@ -237,8 +238,8 @@
 
                         <div class="am-tabs tpl-index-tabs" data-am-tabs>
                             <ul class="am-tabs-nav am-nav am-nav-tabs">
-                                <li class="am-active"><a href="#tab1">进行中</a></li>
-                                <li><a href="#tab2">已完成</a></li>
+                                <li id="doing" class="am-active"><a href="#tab1">进行中</a></li>
+                                <li id="done"><a href="#tab2">已完成</a></li>
                             </ul>
 
                             <div class="am-tabs-bd">
@@ -318,7 +319,16 @@
     <script src="../assets/js/iscroll.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
+    <script src="../assets/js/echarts.min.js"></script>
     <script type="text/javascript">
+        $('#doing').click(function(){
+            $('#flag').addClass('am-icon-calendar-plus-o');
+            $('#flag').removeClass('am-icon-calendar-check-o');
+        });
+        $('#done').click(function(){
+            $('#flag').removeClass('am-icon-calendar-plus-o');
+            $('#flag').addClass('am-icon-calendar-check-o');
+        });
         $('#index').addClass('active');
         var socket=io.connect('http://14961rg045.iask.in:35790');
         socket.on('info',function(data){
@@ -361,6 +371,73 @@
         window.onbeforeunload = function(){
             socket.close();
         };
+
+        var echartsA = echarts.init(document.getElementById('echarts'));
+        option = {
+
+            tooltip: {
+                trigger: 'axis',
+            },
+            legend: {
+                data: ['邮件', '媒体', '资源']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [{
+                type: 'category',
+                boundaryGap: true,
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            }],
+
+            yAxis: [{
+                type: 'value'
+            }],
+            series: [{
+                    name: '邮件',
+                    type: 'line',
+                    stack: '总量',
+                    areaStyle: { normal: {} },
+                    data: [120, 132, 101, 134, 90, 230, 210],
+                    itemStyle: {
+                        normal: {
+                            color: '#59aea2'
+                        },
+                        emphasis: {
+
+                        }
+                    }
+                },
+                {
+                    name: '媒体',
+                    type: 'line',
+                    stack: '总量',
+                    areaStyle: { normal: {} },
+                    data: [220, 182, 191, 234, 290, 330, 310],
+                    itemStyle: {
+                        normal: {
+                            color: '#e7505a'
+                        }
+                    }
+                },
+                {
+                    name: '资源',
+                    type: 'line',
+                    stack: '总量',
+                    areaStyle: { normal: {} },
+                    data: [150, 232, 201, 154, 190, 330, 410],
+                    itemStyle: {
+                        normal: {
+                            color: '#32c5d2'
+                        }
+                    }
+                }
+            ]
+        };
+        echartsA.setOption(option);
     </script>
 </body>
 

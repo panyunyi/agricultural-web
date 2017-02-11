@@ -21,6 +21,11 @@
                             <tr>
                                 <th>序号</th>
                                 <th>农事</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>耗时</th>
+                                <th>操作人员</th>
+                                <th>环境</th>
                                 <th>状态</th>
                                 <th>大棚</th>
                                 <th>农作物</th>
@@ -48,6 +53,7 @@
     <script src="../assets/js/dataTables.select.min.js"></script>
     <script src="../assets/js/dataTables.editor.min.js"></script>
     <script src="../assets/js/editor.semanticui.min.js"></script>
+    <script src="http://cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
     <script>
     var editor;
     $(document).ready(function() {
@@ -68,8 +74,15 @@
             },
             table: "#table",
             fields: [
-                { label: '农事', name: 'name' },
-                { label: '状态',  name: 'status' },
+                { label: '农事', name: 'farm',type:'select' },
+                { label: '开始时间', name: 'startTime',type:'datetime',def:function(){return new Date()},format: 'YYYY-MM-DD HH:mm:ss'},
+                { label: '结束时间', name: 'endTime' ,type:'datetime',def:function(){return new Date()},format: 'YYYY-MM-DD HH:mm:ss'},
+                { label: '操作人员', name: 'user',type:'select' },
+                { label: '环境', name: 'info' },
+                { label: '状态',  name: 'status',type:'radio',options:[
+                    { label: "进行中", value: 0},
+                    { label: "已完成",  value: 1 }
+                ], },
                 { label: '大棚',  name: 'greenhouse',type:'select' },
                 { label: '农作物',  name: 'crop',type:'select' },
                 { label: '备注',  name: 'remark' }
@@ -92,6 +105,12 @@
                             _: "确定要删除 %d 条吗?",
                             1: "确定要删除这条数据吗?"
                         }
+                    },
+                    datetime: {
+                        previous: '上个月',
+                        next:     '下个月',
+                        months:   [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+                        weekdays: [ '日', '一', '二', '三', '四', '五', '六' ]
                     }
                 }
         } );
@@ -104,9 +123,14 @@
             "columns": [
                 {"data":null},
                 { "data": "name" },
-                { "data": "status"},
+                { "data": "startTime" },
+                { "data": "endTime" },
+                { "data": "spendTime"},
+                { "data": "username" },
+                { "data": "info" },
+                { "data": "status",render:function(data){return data?"已完成":"进行中"}},
                 { "data": "greenhousename" },
-                { "data": "crop" },
+                { "data": "cropname" },
                 { "data": "remark"}
             ],
             select:true,
@@ -120,6 +144,13 @@
                 "orderable": false,
                 "targets": 0
             }],
+            "createdRow": function ( row, data, index ) {
+                if ( data.status ) {
+                    $('td', row).eq(7).css("color","#32c5d2");
+                }else {
+                    $('td', row).eq(7).css("color","#e7505a");
+                }
+            },
             "order": [[1, 'asc']],
             "language": {
                 "url": "../assets/css/zh_CN.txt"

@@ -209,13 +209,13 @@
                         <div class="tpl-portlet-title">
                             <div class="tpl-caption font-green ">
                                 <i class="am-icon-line-chart"></i>
-                                <span> Cloud 数据统计</span>
+                                <span> 实时数据监测</span>
                             </div>
                             <div class="actions">
                                 <ul class="actions-btn">
-                                    <li class="red-on">昨天</li>
-                                    <li class="green">前天</li>
-                                    <li class="blue">本周</li>
+                                    <li class="red-on">温度</li>
+                                    <li class="green">湿度</li>
+                                    <li class="blue">二氧化碳</li>
                                 </ul>
                             </div>
                         </div>
@@ -373,71 +373,88 @@
         };
 
         var echartsA = echarts.init(document.getElementById('echarts'));
-        option = {
-
-            tooltip: {
-                trigger: 'axis',
-            },
-            legend: {
-                data: ['邮件', '媒体', '资源']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [{
-                type: 'category',
-                boundaryGap: true,
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            }],
-
-            yAxis: [{
-                type: 'value'
-            }],
-            series: [{
-                    name: '邮件',
-                    type: 'line',
-                    stack: '总量',
-                    areaStyle: { normal: {} },
-                    data: [120, 132, 101, 134, 90, 230, 210],
-                    itemStyle: {
-                        normal: {
-                            color: '#59aea2'
+        function temp(){
+            option = {
+                title: {
+                    text: '温度监测'
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['草莓大棚','蔬菜大棚']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : ['周一','周二','周三','周四','周五','周六','周日']
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'邮件营销',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:[120, 132, 101, 134, 90, 230, 210]
+                    },
+                    {
+                        name:'联盟广告',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:[220, 182, 191, 234, 290, 330, 310]
+                    },
+                    {
+                        name:'视频广告',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:[150, 232, 201, 154, 190, 330, 410]
+                    },
+                    {
+                        name:'直接访问',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:[320, 332, 301, 334, 390, 330, 320]
+                    },
+                    {
+                        name:'搜索引擎',
+                        type:'line',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
                         },
-                        emphasis: {
+                        areaStyle: {normal: {}},
+                        data:[820, 932, 901, 934, 1290, 1330, 1320]
+                    }
+                ]
+            };
+            echartsA.setOption(option);
+        }
 
-                        }
-                    }
-                },
-                {
-                    name: '媒体',
-                    type: 'line',
-                    stack: '总量',
-                    areaStyle: { normal: {} },
-                    data: [220, 182, 191, 234, 290, 330, 310],
-                    itemStyle: {
-                        normal: {
-                            color: '#e7505a'
-                        }
-                    }
-                },
-                {
-                    name: '资源',
-                    type: 'line',
-                    stack: '总量',
-                    areaStyle: { normal: {} },
-                    data: [150, 232, 201, 154, 190, 330, 410],
-                    itemStyle: {
-                        normal: {
-                            color: '#32c5d2'
-                        }
-                    }
-                }
-            ]
-        };
-        echartsA.setOption(option);
+
     </script>
 </body>
 

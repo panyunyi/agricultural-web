@@ -320,6 +320,7 @@
     <script src="../assets/js/app.js"></script>
     <script src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
     <script src="../assets/js/echarts.min.js"></script>
+    <script src="../assets/js/moment.js"></script>
     <script type="text/javascript">
         var tempdata_cm=[];
         var tempdata_sc=[];
@@ -327,6 +328,13 @@
         var wetdata_sc=[];
         var co2data_cm=[];
         var co2data_sc=[];
+        function getData(){
+            var start=moment().subtract(1,'hours').format('YYYY-MM-DD HH:mm:ss');
+            var end=moment().format('YYYY-MM-DD HH:mm:ss');
+            $.get('http://14961rg045.iask.in:15834/data/'+start+'/'+end,function(result){
+                console.log(result);
+            });
+        }
         var echartsA = echarts.init(document.getElementById('echarts'));
         var option = {
                 title: {
@@ -388,10 +396,10 @@
                 },
                 series : [
                     {
-                        data: wetdata_cm
+                        data: tempdata_cm
                     },
                     {
-                        data: wetdata_sc
+                        data: tempdata_sc
                     }
                 ]
             };
@@ -426,15 +434,16 @@
                 },
                 series : [
                     {
-                        data: wetdata_cm
+                        data: co2data_cm
                     },
                     {
-                        data: wetdata_sc
+                        data: co2data_sc
                     }
                 ]
             };
             echartsA.setOption(option);
         }
+        getData();
         echartsA.setOption(option);
         $('#doing').click(function(){
             $('#flag').addClass('am-icon-calendar-plus-o');
@@ -488,8 +497,9 @@
         window.onbeforeunload = function(){
             socket.close();
         };
-
-        
+        setInterval(function(){
+            getData();
+        },300000);
     </script>
 </body>
 

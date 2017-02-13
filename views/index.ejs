@@ -213,9 +213,9 @@
                             </div>
                             <div class="actions">
                                 <ul class="actions-btn">
-                                    <li class="red-on">温度</li>
-                                    <li class="green">湿度</li>
-                                    <li class="blue">二氧化碳</li>
+                                    <li id="temp-chart" class="red-on" onclick="temp()">温度</li>
+                                    <li id="wet-chart" class="green" onclick="wet()">湿度</li>
+                                    <li id="co2-chart" class="blue" onclick="co2()">二氧化碳</li>
                                 </ul>
                             </div>
                         </div>
@@ -321,6 +321,121 @@
     <script src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
     <script src="../assets/js/echarts.min.js"></script>
     <script type="text/javascript">
+        var tempdata_cm=[];
+        var tempdata_sc=[];
+        var wetdata_cm=[];
+        var wetdata_sc=[];
+        var co2data_cm=[];
+        var co2data_sc=[];
+        var echartsA = echarts.init(document.getElementById('echarts'));
+        var option = {
+                title: {
+                    text: '大棚温度监测'
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['草莓大棚','蔬菜大棚']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'time',
+                        splitLine: {
+                            show: false
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value',
+                        boundaryGap: [0, '100%'],
+                        splitLine: {
+                            show: false
+                        }
+                    }
+                ],
+                series : [
+                    {
+                        name:'草莓大棚',
+                        type:'line',
+                        showSymbol: false,
+                        hoverAnimation: false,
+                        data: tempdata_cm
+                    },
+                    {
+                        name:'蔬菜大棚',
+                        type:'line',
+                        showSymbol: false,
+                        hoverAnimation: false,
+                        data: tempdata_sc
+                    }
+                ]
+            };
+        function temp(){
+            $('#temp-chart').attr('class','red-on');
+            $('#co2-chart').attr('class','blue');
+            $('#wet-chart').attr('class','green');
+            option = {
+                title: {
+                    text: '大棚湿度监测'
+                },
+                series : [
+                    {
+                        data: wetdata_cm
+                    },
+                    {
+                        data: wetdata_sc
+                    }
+                ]
+            };
+            echartsA.setOption(option);
+        }
+        function wet(){
+            $('#temp-chart').attr('class','red');
+            $('#co2-chart').attr('class','blue');
+            $('#wet-chart').attr('class','green-on');
+            option = {
+                title: {
+                    text: '大棚湿度监测'
+                },
+                series : [
+                    {
+                        data: wetdata_cm
+                    },
+                    {
+                        data: wetdata_sc
+                    }
+                ]
+            };
+            echartsA.setOption(option);
+        }
+        function co2(){
+            $('#temp-chart').attr('class','red');
+            $('#co2-chart').attr('class','blue-on');
+            $('#wet-chart').attr('class','green');
+            option = {
+                title: {
+                    text: '二氧化碳浓度监测'
+                },
+                series : [
+                    {
+                        data: wetdata_cm
+                    },
+                    {
+                        data: wetdata_sc
+                    }
+                ]
+            };
+            echartsA.setOption(option);
+        }
+        echartsA.setOption(option);
         $('#doing').click(function(){
             $('#flag').addClass('am-icon-calendar-plus-o');
             $('#flag').removeClass('am-icon-calendar-check-o');
@@ -347,6 +462,8 @@
             $('#ph2').html(parseFloat(arr1[3]).toFixed(1));
             $('#light2').html(parseFloat(arr1[4])+"Lux");
             $('#soild2').html(parseFloat(arr1[5]).toFixed(1)+"%");
+
+
         });
         socket.on('limit1',function(data){
             //console.log(data);
@@ -372,89 +489,7 @@
             socket.close();
         };
 
-        var echartsA = echarts.init(document.getElementById('echarts'));
-        function temp(){
-            option = {
-                title: {
-                    text: '温度监测'
-                },
-                tooltip : {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data:['草莓大棚','蔬菜大棚']
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: {}
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis : [
-                    {
-                        type : 'category',
-                        boundaryGap : false,
-                        data : ['周一','周二','周三','周四','周五','周六','周日']
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : [
-                    {
-                        name:'邮件营销',
-                        type:'line',
-                        stack: '总量',
-                        areaStyle: {normal: {}},
-                        data:[120, 132, 101, 134, 90, 230, 210]
-                    },
-                    {
-                        name:'联盟广告',
-                        type:'line',
-                        stack: '总量',
-                        areaStyle: {normal: {}},
-                        data:[220, 182, 191, 234, 290, 330, 310]
-                    },
-                    {
-                        name:'视频广告',
-                        type:'line',
-                        stack: '总量',
-                        areaStyle: {normal: {}},
-                        data:[150, 232, 201, 154, 190, 330, 410]
-                    },
-                    {
-                        name:'直接访问',
-                        type:'line',
-                        stack: '总量',
-                        areaStyle: {normal: {}},
-                        data:[320, 332, 301, 334, 390, 330, 320]
-                    },
-                    {
-                        name:'搜索引擎',
-                        type:'line',
-                        stack: '总量',
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top'
-                            }
-                        },
-                        areaStyle: {normal: {}},
-                        data:[820, 932, 901, 934, 1290, 1330, 1320]
-                    }
-                ]
-            };
-            echartsA.setOption(option);
-        }
-
-
+        
     </script>
 </body>
 

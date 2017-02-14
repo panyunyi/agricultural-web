@@ -90,6 +90,7 @@ router.get('/video', function(req, res, next) {
         let query = new AV.Query('video');
         query.equalTo('isDel',false);
         query.include('greenhouse');
+        query.ascending('channel');
         query.find().then(function(results){
             async.map(results,function(result,callback1){
                 result.set('DT_RowId',result.id);

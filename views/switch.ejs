@@ -603,7 +603,7 @@
         socket.on('limit1',function(data){
             //console.log(data);
             var arr=data.split(',');
-            $('#war-temp').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"℃");
+            $('#war-temp').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"°C");
             $('#war-wet').html(parseFloat(arr[2])+"~"+parseFloat(arr[3])+"%");
             $('#war-co2').html(parseFloat(arr[4])+"~"+parseFloat(arr[5])+"PPM");
             $('#war-ph').html(parseFloat(arr[6])+"~"+parseFloat(arr[7]));
@@ -613,7 +613,7 @@
         socket.on('limit2',function(data){
             //console.log(data);
             var arr=data.split(',');
-            $('#war-temp2').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"℃");
+            $('#war-temp2').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"°C");
             $('#war-wet2').html(parseFloat(arr[2])+"~"+parseFloat(arr[3])+"%");
             $('#war-co22').html(parseFloat(arr[4])+"~"+parseFloat(arr[5])+"PPM");
             $('#war-ph2').html(parseFloat(arr[6])+"~"+parseFloat(arr[7]));

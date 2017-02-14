@@ -320,7 +320,6 @@
     <script src="../assets/js/app.js"></script>
     <script src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
     <script src="../assets/js/echarts.min.js"></script>
-    <script src="../assets/js/moment.js"></script>
     <script type="text/javascript">
         var tempdata_cm=[];
         var tempdata_sc=[];
@@ -328,11 +327,33 @@
         var wetdata_sc=[];
         var co2data_cm=[];
         var co2data_sc=[];
+        var luxdata_cm=[];
+        var luxdata_sc=[];
+        var time=[];
         function getData(){
-            var start=moment().subtract(1,'hours').format('YYYY-MM-DD HH:mm:ss');
-            var end=moment().format('YYYY-MM-DD HH:mm:ss');
-            $.get('http://14961rg045.iask.in:15834/data/'+start+'/'+end,function(result){
-                console.log(result);
+            $.get('../api/getInfo',function(result){
+                time.splice(0,time.length);
+                tempdata_sc.splice(0,tempdata_sc.length);
+                tempdata_cm.splice(0,tempdata_cm.length);
+                wetdata_sc.splice(0,wetdata_sc.length);
+                wetdata_cm.splice(0,wetdata_cm.length);
+                co2data_sc.splice(0,co2data_sc.length);
+                co2data_cm.splice(0,co2data_cm.length);
+                luxdata_sc.splice(0,luxdata_sc.length);
+                luxdata_cm.splice(0,luxdata_cm.length);
+                for(var i=0;i<result.length;i++){
+                    var arr1=result[i].info.split(',').slice(0,6);
+                    var arr2=result[i].info.split(',').slice(6);
+                    tempdata_sc.push(arr1[0]);
+                    tempdata_cm.push(arr2[0]);
+                    wetdata_sc.push(arr1[1]);
+                    wetdata_cm.push(arr2[1]);
+                    co2data_sc.push(arr1[2]);
+                    co2data_cm.push(arr2[2]);
+                    luxdata_sc.push(arr1[4]);
+                    luxdata_cm.push(arr2[4]);
+                    time.push(result[i].time);
+                }
             });
         }
         var echartsA = echarts.init(document.getElementById('echarts'));
@@ -355,6 +376,7 @@
                 xAxis : [
                     {
                         type : 'time',
+                        data:time,
                         splitLine: {
                             show: false
                         }
@@ -392,7 +414,13 @@
             $('#wet-chart').attr('class','green');
             option = {
                 title: {
-                    text: '大棚湿度监测'
+                    text: '大棚温度监测'
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} °C'
+                    }
                 },
                 series : [
                     {
@@ -413,6 +441,12 @@
                 title: {
                     text: '大棚湿度监测'
                 },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} %'
+                    }
+                },
                 series : [
                     {
                         data: wetdata_cm
@@ -431,6 +465,12 @@
             option = {
                 title: {
                     text: '二氧化碳浓度监测'
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} %'
+                    }
                 },
                 series : [
                     {
@@ -458,14 +498,14 @@
         socket.on('info',function(data){
             //console.log(data);
             var arr=data.shucai;
-            $('#temp').html(parseFloat(arr[0]).toFixed(2)+"℃");
+            $('#temp').html(parseFloat(arr[0]).toFixed(2)+"°C");
             $('#wet').html(parseFloat(arr[1]).toFixed(1)+"%");
             $('#co2').html(parseFloat(arr[2]).toFixed(1)+"PPM");
             $('#ph').html(parseFloat(arr[3]).toFixed(1));
             $('#light').html(parseFloat(arr[4])+"Lux");
             $('#soild').html(parseFloat(arr[5]).toFixed(1)+"%");
             var arr1=data.caomei;
-            $('#temp2').html(parseFloat(arr1[0]).toFixed(2)+"℃");
+            $('#temp2').html(parseFloat(arr1[0]).toFixed(2)+"°C");
             $('#wet2').html(parseFloat(arr1[1]).toFixed(1)+"%");
             $('#co22').html(parseFloat(arr1[2]).toFixed(1)+"PPM");
             $('#ph2').html(parseFloat(arr1[3]).toFixed(1));
@@ -477,7 +517,7 @@
         socket.on('limit1',function(data){
             //console.log(data);
             var arr=data.split(',');
-            $('#war-temp').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"℃");
+            $('#war-temp').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"°C");
             $('#war-wet').html(parseFloat(arr[2])+"~"+parseFloat(arr[3])+"%");
             $('#war-co2').html(parseFloat(arr[4])+"~"+parseFloat(arr[5])+"PPM");
             $('#war-ph').html(parseFloat(arr[6])+"~"+parseFloat(arr[7]));
@@ -497,9 +537,6 @@
         window.onbeforeunload = function(){
             socket.close();
         };
-        setInterval(function(){
-            //getData();
-        },300000);
     </script>
 </body>
 

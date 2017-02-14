@@ -11,6 +11,17 @@ var result={
     data:"",
     server_time:new Date()
 };
+
+router.get('/getInfo', function(req, res) {
+    let client=request.createClient('http://14961rg045.iask.in:15834');
+    client.get('data/',function(err,res1,body){
+        body.forEach(function(data){
+            data['time']=new moment(data.time).format('YYYY-MM-DD HH:mm:ss');
+        });
+        res.jsonp(body);
+    });
+});
+
 router.get('/getToken', function(req, res) {
     let client=request.createClient('https://open.ys7.com');
     let time=Math.round(new Date().getTime()/1000);

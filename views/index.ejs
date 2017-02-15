@@ -213,9 +213,8 @@
                             </div>
                             <div class="actions">
                                 <ul class="actions-btn">
-                                    <li id="temp-chart" class="red-on" onclick="temp()">温度</li>
-                                    <li id="wet-chart" class="green" onclick="wet()">湿度</li>
-                                    <li id="co2-chart" class="blue" onclick="co2()">二氧化碳</li>
+                                    <li id="temp-chart" class="red-on" onclick="temp()">草莓大棚</li>
+                                    <li id="wet-chart" class="green" onclick="wet()">蔬菜大棚</li>
                                 </ul>
                             </div>
                         </div>
@@ -357,57 +356,98 @@
             });
         }
         var echartsA = echarts.init(document.getElementById('echarts'));
+        var colors = ['#5793f3', '#d14a61', '#675bba'];
+
         var option = {
-                title: {
-                    text: '大棚温度监测'
-                },
-                tooltip : {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data:['草莓大棚','蔬菜大棚']
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis : [
-                    {
-                        type : 'time',
-                        data:time,
-                        splitLine: {
-                            show: false
-                        }
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value',
-                        boundaryGap: [0, '100%'],
-                        splitLine: {
-                            show: false
-                        }
-                    }
-                ],
-                series : [
-                    {
-                        name:'草莓大棚',
-                        type:'line',
-                        showSymbol: false,
-                        hoverAnimation: false,
-                        data: tempdata_cm
+            color: colors,
+
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                right: '20%'
+            },
+ 
+            legend: {
+                data:['棚内温度','棚内湿度','土壤湿度']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    axisTick: {
+                        alignWithLabel: true
                     },
-                    {
-                        name:'蔬菜大棚',
-                        type:'line',
-                        showSymbol: false,
-                        hoverAnimation: false,
-                        data: tempdata_sc
+                    data: time
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '棚内湿度',
+                    min: 0,
+                    max: 250,
+                    position: 'right',
+                    axisLine: {
+                        lineStyle: {
+                            color: colors[0]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} %'
                     }
-                ]
-            };
+                },
+                {
+                    type: 'value',
+                    name: '土壤湿度',
+                    min: 0,
+                    max: 250,
+                    position: 'right',
+                    offset: 80,
+                    axisLine: {
+                        lineStyle: {
+                            color: colors[1]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} %'
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '温度',
+                    min: 0,
+                    max: 25,
+                    position: 'left',
+                    axisLine: {
+                        lineStyle: {
+                            color: colors[2]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} °C'
+                    }
+                }
+            ],
+            series: [
+                {
+                    name:'蒸发量',
+                    type:'bar',
+                    data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+                },
+                {
+                    name:'降水量',
+                    type:'bar',
+                    yAxisIndex: 1,
+                    data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                },
+                {
+                    name:'温度',
+                    type:'line',
+                    yAxisIndex: 2,
+                    data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+                }
+            ]
+        };
         function temp(){
             $('#temp-chart').attr('class','red-on');
             $('#co2-chart').attr('class','blue');
@@ -415,12 +455,6 @@
             option = {
                 title: {
                     text: '大棚温度监测'
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: '{value} °C'
-                    }
                 },
                 series : [
                     {
@@ -441,43 +475,12 @@
                 title: {
                     text: '大棚湿度监测'
                 },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: '{value} %'
-                    }
-                },
                 series : [
                     {
                         data: wetdata_cm
                     },
                     {
                         data: wetdata_sc
-                    }
-                ]
-            };
-            echartsA.setOption(option);
-        }
-        function co2(){
-            $('#temp-chart').attr('class','red');
-            $('#co2-chart').attr('class','blue-on');
-            $('#wet-chart').attr('class','green');
-            option = {
-                title: {
-                    text: '二氧化碳浓度监测'
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: '{value} %'
-                    }
-                },
-                series : [
-                    {
-                        data: co2data_cm
-                    },
-                    {
-                        data: co2data_sc
                     }
                 ]
             };
@@ -511,7 +514,6 @@
             $('#ph2').html(parseFloat(arr1[3]).toFixed(1));
             $('#light2').html(parseFloat(arr1[4])+"Lux");
             $('#soild2').html(parseFloat(arr1[5]).toFixed(1)+"%");
-
 
         });
         socket.on('limit1',function(data){

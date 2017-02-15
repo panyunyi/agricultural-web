@@ -328,10 +328,14 @@
         var co2data_sc=[];
         var luxdata_cm=[];
         var luxdata_sc=[];
+        var soliddata_cm=[];
+        var soliddata_sc=[];
         var time=[];
+        var hour=[]
         function getData(){
             $.get('../api/getInfo',function(result){
                 time.splice(0,time.length);
+                hour.splice(0,hour.length);
                 tempdata_sc.splice(0,tempdata_sc.length);
                 tempdata_cm.splice(0,tempdata_cm.length);
                 wetdata_sc.splice(0,wetdata_sc.length);
@@ -340,89 +344,66 @@
                 co2data_cm.splice(0,co2data_cm.length);
                 luxdata_sc.splice(0,luxdata_sc.length);
                 luxdata_cm.splice(0,luxdata_cm.length);
+                soliddata_cm.splice(0,soliddata_cm.length);
+                soliddata_sc.splice(0,soliddata_sc.length);
                 for(var i=0;i<result.length;i++){
                     var arr1=result[i].info.split(',').slice(0,6);
                     var arr2=result[i].info.split(',').slice(6);
-                    tempdata_sc.push(arr1[0]);
-                    tempdata_cm.push(arr2[0]);
+                    tempdata_sc.push(parseFloat(arr1[0]).toFixed(2));
+                    tempdata_cm.push(parseFloat(arr2[0]).toFixed(2));
                     wetdata_sc.push(arr1[1]);
                     wetdata_cm.push(arr2[1]);
                     co2data_sc.push(arr1[2]);
                     co2data_cm.push(arr2[2]);
                     luxdata_sc.push(arr1[4]);
                     luxdata_cm.push(arr2[4]);
+                    soliddata_sc.push(arr1[5]);
+                    soliddata_cm.push(arr2[5]);
                     time.push(result[i].time);
+                    hour.push(result[i].hour);
                 }
             });
         }
+        getData();
         var echartsA = echarts.init(document.getElementById('echarts'));
-        var colors = ['#5793f3', '#d14a61', '#675bba'];
-
         var option = {
-            color: colors,
-
             tooltip: {
                 trigger: 'axis'
             },
-            grid: {
-                right: '20%'
+            toolbox: {
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
             },
- 
             legend: {
-                data:['棚内温度','棚内湿度','土壤湿度']
+                data:['光照度','平均温度']
             },
             xAxis: [
                 {
-                    type: 'category',
-                    axisTick: {
-                        alignWithLabel: true
-                    },
+                    type: 'time',
                     data: time
                 }
             ],
             yAxis: [
                 {
                     type: 'value',
-                    name: '棚内湿度',
+                    name: '光照度',
                     min: 0,
-                    max: 250,
-                    position: 'right',
-                    axisLine: {
-                        lineStyle: {
-                            color: colors[0]
-                        }
-                    },
+                    max: 21000,
+                    interval: 3000,
                     axisLabel: {
-                        formatter: '{value} %'
-                    }
-                },
-                {
-                    type: 'value',
-                    name: '土壤湿度',
-                    min: 0,
-                    max: 250,
-                    position: 'right',
-                    offset: 80,
-                    axisLine: {
-                        lineStyle: {
-                            color: colors[1]
-                        }
-                    },
-                    axisLabel: {
-                        formatter: '{value} %'
+                        formatter: '{value} '
                     }
                 },
                 {
                     type: 'value',
                     name: '温度',
                     min: 0,
-                    max: 25,
-                    position: 'left',
-                    axisLine: {
-                        lineStyle: {
-                            color: colors[2]
-                        }
-                    },
+                    max: 40,
+                    interval: 5,
                     axisLabel: {
                         formatter: '{value} °C'
                     }
@@ -430,35 +411,44 @@
             ],
             series: [
                 {
-                    name:'蒸发量',
+                    name:'光照度',
                     type:'bar',
-                    data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+                    data:luxdata_cm
                 },
                 {
-                    name:'降水量',
-                    type:'bar',
-                    yAxisIndex: 1,
-                    data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-                },
-                {
-                    name:'温度',
+                    name:'平均温度',
                     type:'line',
-                    yAxisIndex: 2,
-                    data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+                    yAxisIndex: 1,
+                    data:tempdata_cm
                 }
             ]
         };
+
         function temp(){
             $('#temp-chart').attr('class','red-on');
             $('#co2-chart').attr('class','blue');
             $('#wet-chart').attr('class','green');
             option = {
-                title: {
-                    text: '大棚温度监测'
-                },
                 series : [
                     {
+                        data: luxdata_cm
+                    },
+                    {
                         data: tempdata_cm
+                    }
+                ]
+            };
+            console.log(option);
+            echartsA.setOption(option);
+        }
+        function wet(){
+            $('#temp-chart').attr('class','red');
+            $('#co2-chart').attr('class','blue');
+            $('#wet-chart').attr('class','green-on');
+            option = {
+                series : [
+                    {
+                        data: luxdata_sc
                     },
                     {
                         data: tempdata_sc
@@ -467,26 +457,6 @@
             };
             echartsA.setOption(option);
         }
-        function wet(){
-            $('#temp-chart').attr('class','red');
-            $('#co2-chart').attr('class','blue');
-            $('#wet-chart').attr('class','green-on');
-            option = {
-                title: {
-                    text: '大棚湿度监测'
-                },
-                series : [
-                    {
-                        data: wetdata_cm
-                    },
-                    {
-                        data: wetdata_sc
-                    }
-                ]
-            };
-            echartsA.setOption(option);
-        }
-        getData();
         echartsA.setOption(option);
         $('#doing').click(function(){
             $('#flag').addClass('am-icon-calendar-plus-o');

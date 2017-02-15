@@ -14,7 +14,8 @@ var result={
 
 router.get('/getInfo', function(req, res) {
     let client=request.createClient('http://14961rg045.iask.in:15834');
-    client.get('data/',function(err,res1,body){
+    let date=new moment(new Date()).format('YYYY-MM-DD');
+    client.get('data/'+date,function(err,res1,body){
         body.forEach(function(data){
             data['time']=new moment(data.time).format('YYYY-MM-DD HH:mm:ss');
         });

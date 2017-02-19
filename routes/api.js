@@ -25,6 +25,18 @@ router.get('/getInfo', function(req, res) {
     });
 });
 
+router.get('/test',function(req,res){
+    let query=new AV.Query('info');
+    query.lessThanOrEqualTo('time',new Date());
+    query.limit(10);
+    query.find().then(function(results){
+        results.forEach(function(result){
+            result.set('time',new moment(result.get('time')).format('YYYY-MM-DD HH:mm:ss'));
+        });
+        res.jsonp({"data":results,"length":results.length});
+    });
+});
+
 router.get('/getToken', function(req, res) {
     let client=request.createClient('https://open.ys7.com');
     let time=Math.round(new Date().getTime()/1000);

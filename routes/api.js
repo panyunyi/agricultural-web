@@ -12,6 +12,24 @@ var result={
     server_time:new Date()
 };
 
+router.get('/version/:code',function(req,res){
+  var query=new AV.Query('version');
+  query.greaterThan('version_code', req.params.code*1);
+  query.first().then(function (data) {
+    if(data==null){
+      data="";
+    }
+    res.json({
+      status:200,
+      message:"",
+      data:data,
+      server_time: new Date()
+    });
+  }, function (error) {
+
+  });
+});
+
 router.get('/getInfo', function(req, res) {
     let client=request.createClient('http://14961rg045.iask.in:15834');
     let date=new moment(new Date()).format('YYYY-MM-DD');

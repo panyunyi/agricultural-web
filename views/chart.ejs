@@ -12,7 +12,7 @@
             <div class="tpl-portlet-components">
                 <div class="portlet-title">
                     <div class="caption font-green bold">
-                        <span class="am-icon-bar-chart"></span> 折线图
+                        <span class="am-icon-bar-chart"></span> 点状图
                     </div>
                     <div class="tpl-portlet-input tpl-fz-ml">
 
@@ -40,14 +40,7 @@
                     <div class="tpl-echarts tpl-chart-mb" id="tpl-echarts-A">
 
                     </div>
-                    <div class="portlet-title">
-                        <div class="caption font-green bold">
-                            <span class="am-icon-code"></span> 雷达图
-                        </div>
-                    </div>
-                    <div class="tpl-echarts tpl-chart-mb" id="tpl-echarts-B">
 
-                    </div>
 
                     <div class="portlet-title">
                         <div class="caption font-green bold">
@@ -82,247 +75,284 @@
     <script type="text/javascript">
         $('#chart').addClass('active');
         var echartsA = echarts.init(document.getElementById('tpl-echarts-A'));
-        var dataCM = [
-            [1,55,9,56,0.46,18,6,"良"],
-            [2,25,11,21,0.65,34,9,"优"],
-            [3,56,7,63,0.3,14,5,"良"],
-            [4,33,7,29,0.33,16,6,"优"],
-            [5,42,24,44,0.76,40,16,"优"],
-            [6,82,58,90,1.77,68,33,"良"],
-            [7,74,49,77,1.46,48,27,"良"],
-            [8,78,55,80,1.29,59,29,"良"],
-            [9,267,216,280,4.8,108,64,"重度污染"],
-            [10,185,127,216,2.52,61,27,"中度污染"],
-            [11,39,19,38,0.57,31,15,"优"],
-            [12,41,11,40,0.43,21,7,"优"],
-            [13,64,38,74,1.04,46,22,"良"],
-            [14,108,79,120,1.7,75,41,"轻度污染"],
-            [15,108,63,116,1.48,44,26,"轻度污染"],
-            [16,33,6,29,0.34,13,5,"优"],
-            [17,94,66,110,1.54,62,31,"良"],
-            [18,186,142,192,3.88,93,79,"中度污染"],
-            [19,57,31,54,0.96,32,14,"良"],
-            [20,22,8,17,0.48,23,10,"优"],
-            [21,39,15,36,0.61,29,13,"优"],
-            [22,94,69,114,2.08,73,39,"良"],
-            [23,99,73,110,2.43,76,48,"良"],
-            [24,31,12,30,0.5,32,16,"优"],
-            [25,42,27,43,1,53,22,"优"],
-            [26,154,117,157,3.05,92,58,"中度污染"],
-            [27,234,185,230,4.09,123,69,"重度污染"],
-            [28,160,120,186,2.77,91,50,"中度污染"],
-            [29,134,96,165,2.76,83,41,"轻度污染"],
-            [30,52,24,60,1.03,50,21,"良"],
-            [31,46,5,49,0.28,10,6,"优"]
-        ];
-
-        var dataSC = [
-            [1,26,37,27,1.163,27,13,"优"],
-            [2,85,62,71,1.195,60,8,"良"],
-            [3,78,38,74,1.363,37,7,"良"],
-            [4,21,21,36,0.634,40,9,"优"],
-            [5,41,42,46,0.915,81,13,"优"],
-            [6,56,52,69,1.067,92,16,"良"],
-            [7,64,30,28,0.924,51,2,"良"],
-            [8,55,48,74,1.236,75,26,"良"],
-            [9,76,85,113,1.237,114,27,"良"],
-            [10,91,81,104,1.041,56,40,"良"],
-            [11,84,39,60,0.964,25,11,"良"],
-            [12,64,51,101,0.862,58,23,"良"],
-            [13,70,69,120,1.198,65,36,"良"],
-            [14,77,105,178,2.549,64,16,"良"],
-            [15,109,68,87,0.996,74,29,"轻度污染"],
-            [16,73,68,97,0.905,51,34,"良"],
-            [17,54,27,47,0.592,53,12,"良"],
-            [18,51,61,97,0.811,65,19,"良"],
-            [19,91,71,121,1.374,43,18,"良"],
-            [20,73,102,182,2.787,44,19,"良"],
-            [21,73,50,76,0.717,31,20,"良"],
-            [22,84,94,140,2.238,68,18,"良"],
-            [23,93,77,104,1.165,53,7,"良"],
-            [24,99,130,227,3.97,55,15,"良"],
-            [25,146,84,139,1.094,40,17,"轻度污染"],
-            [26,113,108,137,1.481,48,15,"轻度污染"],
-            [27,81,48,62,1.619,26,3,"良"],
-            [28,56,48,68,1.336,37,9,"良"],
-            [29,82,92,174,3.29,0,13,"良"],
-            [30,106,116,188,3.628,101,16,"轻度污染"],
-            [31,118,50,0,1.383,76,11,"轻度污染"]
-        ];
-
-        var schema = [
-            {name: 'date', index: 0, text: '日'},
-            {name: 'Lux', index: 1, text: '光照度'},
-            {name: 'Temp', index: 2, text: '室内温度'},
-            {name: 'Wet', index: 3, text: '室内湿度'},
-            {name: 'CO2', index: 4, text: '二氧化碳（CO2）'},
-            {name: 'PH', index: 5, text: '土壤PH值'},
-            {name: 'Solid', index: 6, text: '土壤湿度'}
-        ];
+        var echartsC = echarts.init(document.getElementById('tpl-echarts-C'));
+        var dataBJ = [
+    [1,15,555,87,7.2,68,6000],
+    [2,25,5511,82,7.2,64,9000],
+    [3,16,557,83,7.2,64,5000],
+    [4,33,557,89,7.2,66,6000],
+    [5,12,524,84,7.2,60,16000],
+    [6,12,558,90,7.2,68,3300],
+    [7,14,549,87,7.2,68,2700],
+    [8,18,555,80,7.2,59,2900],
+    [9,26,516,80,7.2,68,6400],
+    [10,18,527,82,7.2,61,2700],
+    [11,19,519,88,7.2,61,1500],
+    [12,21,511,80,7.2,61,700],
+    [13,24,538,84,7.2,66,2200],
+    [14,18,579,82,7.2,65,4100],
+    [15,18,563,81,7.2,64,2600],
+    [16,33,556,89,7.2,63,500],
+    [17,24,566,81,7.2,62,3100],
+    [18,18,542,82,7.2,63,7900],
+    [19,17,531,84,7.2,62,1400],
+    [20,22,558,87,7.2,63,10000],
+    [21,39,555,86,7.2,69,1300],
+    [22,24,569,84,7.2,63,3900],
+    [23,29,573,80,7.2,66,4800],
+    [24,31,512,80,7.2,62,1600],
+    [25,22,527,83,7.2,63,2200],
+    [26,15,517,87,7.2,62,5800],
+    [27,23,585,80,7.2,63,6900],
+    [28,16,520,86,7.2,61,5000],
+    [29,13,596,85,7.2,63,4100],
+    [30,12,524,80,7.2,60,2100],
+    [31,16,555,89,7.2,60,6000]
+];
 
 
-        var itemStyle = {
-            normal: {
-                opacity: 0.8,
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowOffsetY: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+
+var dataSH = [
+    [1,11,545,85,7.2,64,2300],
+    [2,15,527,88,7.2,65,2900],
+    [3,23,560,84,7.2,63,2700],
+    [4,19,581,82,7.2,68,5100],
+    [5,16,577,84,7.2,65,5100],
+    [6,19,581,81,7.2,68,5100],
+    [7,16,577,84,7.2,65,5100],
+    [8,19,565,78,7.2,61,2600],
+    [9,23,533,87,7.2,60,1700],
+    [10,20,555,80,7.2,65,2400],
+    [11,17,581,84,7.2,65,2400],
+    [12,19,571,82,7.2,62,4200],
+    [13,19,569,80,7.2,64,5000],
+    [14,16,587,81,7.2,64,4000],
+    [15,18,580,81,7.2,65,3700],
+    [16,14,583,87,7.2,67,4300],
+    [17,19,543,87,7.2,69,3700],
+    [18,21,546,89,7.2,64,2500],
+    [19,27,571,83,7.2,68,3100],
+    [20,24,557,91,7.2,65,3100],
+    [21,27,563,81,7.2,66,4100],
+    [22,14,577,89,7.2,63,4800],
+    [23,27,562,80,7.2,62,2800],
+    [24,18,528,82,7.2,67,5600],
+    [25,15,545,81,7.2,69,1700],
+    [26,29,524,88,7.2,67,1700],
+    [27,29,524,89,7.2,60,1900],
+    [28,23,568,86,7.2,69,2900],
+    [29,18,543,87,7.2,69,5100],
+    [30,17,531,84,7.2,68,5000],
+    [31,18,543,81,7.2,69,5300]
+];
+
+var schema = [
+    {name: 'date', index: 0, text: '日'},
+    {name: 'AQIindex', index: 1, text: '温度'},
+    {name: 'PM25', index: 2, text: '二氧化碳'},
+    {name: 'PM10', index: 3, text: '室内湿度'},
+    {name: 'CO', index: 4, text: '土壤PH'},
+    {name: 'NO2', index: 5, text: '土壤湿度'},
+    {name: 'SO2', index: 6, text: '光照度'}
+];
+
+
+var itemStyle = {
+    normal: {
+        opacity: 0.8,
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowOffsetY: 0,
+        shadowColor: 'rgba(0, 0, 0, 0.5)'
+    }
+};
+
+option = {
+    backgroundColor: '#404a59',
+    color: [
+        '#dd4444', '#fec42c', '#80F1BE'
+    ],
+    legend: {
+        y: 'top',
+        data: ['草莓大棚', '蔬菜大棚'],
+        textStyle: {
+            color: '#fff',
+            fontSize: 16
+        }
+    },
+    grid: {
+        x: '10%',
+        x2: 150,
+        y: '18%',
+        y2: '10%'
+    },
+    tooltip: {
+        padding: 10,
+        backgroundColor: '#222',
+        borderColor: '#777',
+        borderWidth: 1,
+        formatter: function (obj) {
+            var value = obj.value;
+            return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
+                + obj.seriesName + ' ' + value[0] + '日'
+                + '</div>'
+                + schema[1].text + '：' + value[1] + '<br>'
+                + schema[2].text + '：' + value[2] + '<br>'
+                + schema[3].text + '：' + value[3] + '<br>'
+                + schema[4].text + '：' + value[4] + '<br>'
+                + schema[5].text + '：' + value[5] + '<br>'
+                + schema[6].text + '：' + value[6] + '<br>';
+        }
+    },
+    xAxis: {
+        type: 'value',
+        name: '日期',
+        nameGap: 16,
+        nameTextStyle: {
+            color: '#fff',
+            fontSize: 14
+        },
+        max: 31,
+        splitLine: {
+            show: false
+        },
+        axisLine: {
+            lineStyle: {
+                color: '#eee'
             }
-        };
-
-        var option = {
-            backgroundColor: '#404a59',
-            color: [
-                '#dd4444', '#fec42c', '#80F1BE'
-            ],
-            legend: {
-                y: 'top',
-                data: ['草莓大棚', '蔬菜大棚'],
-                textStyle: {
-                    color: '#fff',
-                    fontSize: 16
-                }
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: '温度',
+        nameLocation: 'end',
+        nameGap: 20,
+        nameTextStyle: {
+            color: '#fff',
+            fontSize: 16
+        },
+        axisLine: {
+            lineStyle: {
+                color: '#eee'
+            }
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    visualMap: [
+        {
+            left: 'right',
+            top: '10%',
+            dimension: 1,
+            min: 0,
+            max: 40,
+            itemWidth: 30,
+            itemHeight: 120,
+            calculable: true,
+            precision: 0.1,
+            text: ['圆形大小：温度'],
+            textGap: 30,
+            textStyle: {
+                color: '#fff'
             },
-            grid: {
-                x: '10%',
-                x2: 150,
-                y: '18%',
-                y2: '10%'
+            inRange: {
+                symbolSize: [10, 70]
             },
-            tooltip: {
-                padding: 10,
-                backgroundColor: '#222',
-                borderColor: '#777',
-                borderWidth: 1,
-                formatter: function (obj) {
-                    var value = obj.value;
-                    return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
-                        + obj.seriesName + ' ' + value[0] + '日：'
-                        + value[7]
-                        + '</div>'
-                        + schema[1].text + '：' + value[1] + '<br>'
-                        + schema[2].text + '：' + value[2] + '<br>'
-                        + schema[3].text + '：' + value[3] + '<br>'
-                        + schema[4].text + '：' + value[4] + '<br>'
-                        + schema[5].text + '：' + value[5] + '<br>'
-                        + schema[6].text + '：' + value[6] + '<br>';
-                }
+            outOfRange: {
+                symbolSize: [10, 70],
+                color: ['rgba(255,255,255,.2)']
             },
-            xAxis: {
-                type: 'value',
-                name: '日期',
-                nameGap: 16,
-                nameTextStyle: {
-                    color: '#fff',
-                    fontSize: 14
+            controller: {
+                inRange: {
+                    color: ['#c23531']
                 },
-                max: 31,
-                splitLine: {
-                    show: false
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#eee'
-                    }
+                outOfRange: {
+                    color: ['#444']
                 }
-            },
-            yAxis: {
-                type: 'value',
-                name: '光照度',
-                nameLocation: 'end',
-                nameGap: 20,
-                nameTextStyle: {
-                    color: '#fff',
-                    fontSize: 16
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#eee'
-                    }
-                },
-                splitLine: {
-                    show: false
-                }
-            },
-            visualMap: [
-                {
-                    left: 'right',
-                    top: '10%',
-                    dimension: 2,
-                    min: 0,
-                    max: 50,
-                    itemWidth: 30,
-                    itemHeight: 120,
-                    calculable: true,
-                    precision: 0.1,
-                    text: ['圆形大小：室内温度'],
-                    textGap: 30,
-                    textStyle: {
-                        color: '#fff'
-                    },
-                    inRange: {
-                        symbolSize: [10, 70]
-                    },
-                    outOfRange: {
-                        symbolSize: [10, 70],
-                        color: ['rgba(255,255,255,.2)']
-                    },
-                    controller: {
-                        inRange: {
-                            color: ['#c23531']
-                        },
-                        outOfRange: {
-                            color: ['#444']
-                        }
-                    }
-                },
-                {
-                    left: 'right',
-                    bottom: '5%',
-                    dimension: 4,
-                    min: 0,
-                    max: 1000,
-                    itemHeight: 120,
-                    calculable: true,
-                    precision: 0.1,
-                    text: ['明暗：二氧化碳浓度'],
-                    textGap: 30,
-                    textStyle: {
-                        color: '#fff'
-                    },
-                    inRange: {
-                        colorLightness: [1, 0.5]
-                    },
-                    outOfRange: {
-                        color: ['rgba(255,255,255,.2)']
-                    },
-                    controller: {
-                        inRange: {
-                            color: ['#c23531']
-                        },
-                        outOfRange: {
-                            color: ['#444']
-                        }
-                    }
-                }
-            ],
-            series: [
-                {
-                    name: '草莓大棚',
-                    type: 'scatter',
-                    itemStyle: itemStyle,
-                    data: dataCM
-                },
-                {
-                    name: '蔬菜大棚',
-                    type: 'scatter',
-                    itemStyle: itemStyle,
-                    data: dataSC
-                }
-            ]
-        };
+            }
+        }
+    ],
+    series: [
+        {
+            name: '草莓大棚',
+            type: 'scatter',
+            itemStyle: itemStyle,
+            data: dataBJ
+        },
+        {
+            name: '蔬菜大棚',
+            type: 'scatter',
+            itemStyle: itemStyle,
+            data: dataSH
+        }
+    ]
+};
         echartsA.setOption(option);
+
+option1 = {
+    tooltip: {
+        trigger: 'axis'
+    },
+    toolbox: {
+        feature: {
+            dataView: {show: true, readOnly: false},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore: {show: true},
+            saveAsImage: {show: true}
+        }
+    },
+    legend: {
+        data:['草莓大棚','蔬菜大棚','平均温度']
+    },
+    xAxis: [
+        {
+            type: 'category',
+            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            name: '光照度',
+            min: 0,
+            max: 25000,
+            interval: 5000,
+            axisLabel: {
+                formatter: '{value} Lux'
+            }
+        },
+        {
+            type: 'value',
+            name: '温度',
+            min: 0,
+            max: 25,
+            interval: 5,
+            axisLabel: {
+                formatter: '{value} °C'
+            }
+        }
+    ],
+    series: [
+        {
+            name:'草莓大棚',
+            type:'bar',
+            data:[200, 490, 700, 2302, 2506, 7607, 13506, 16202, 3206, 2000, 604, 303]
+        },
+        {
+            name:'蔬菜大棚',
+            type:'bar',
+            data:[260, 590, 900, 2604, 2807, 7007, 17506, 18202, 4807, 1808, 600, 203]
+        },
+        {
+            name:'平均温度',
+            type:'line',
+            yAxisIndex: 1,
+            data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+        }
+    ]
+};
+echartsC.setOption(option1);
     </script>
 </body>
 

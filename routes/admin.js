@@ -2,31 +2,62 @@
 var router = require('express').Router();
 var AV = require('leanengine');
 var moment=require('moment');
+var async=require('async');
 moment.locale('zh-cn');
 
 router.get('/', function(req, res) {
     if(req.currentUser){
-        let query=new AV.Query('farming');
-        query.equalTo('isDel',false);
-        query.descending('startTime');
-        query.include('greenhouse');
-        query.include('crop');
-        query.include('user');
-        query.find().then(function(results){
-            results.forEach(function(result){
-                result.set('startTime',new moment(result.get('startTime')).format('YYYY-MM-DD HH:mm:ss'));
-                result.set('endTime',new moment(result.get('endTime')).format('YYYY-MM-DD HH:mm:ss'));
-                result.set('greenhouse',result.get('greenhouse').get('name'));
-                result.set('crop',result.get('crop').get('name'));
-                result.set('user',result.get('user').get('name'));
-                if(result.get('status')){
-                    result.set('time',new moment(result.get('endTime')).fromNow());
-                }
-                else{
-                    result.set('time',new moment(result.get('startTime')).fromNow());
-                }
+        function promise1(callback){
+            let query=new AV.Query('farming');
+            query.equalTo('isDel',false);
+            query.descending('startTime');
+            query.include('greenhouse');
+            query.include('crop');
+            query.include('user');
+            query.find().then(function(results){
+                async.map(results,function(result,callback1){
+                    result.set('startTime',new moment(result.get('startTime')).format('YYYY-MM-DD HH:mm:ss'));
+                    result.set('endTime',new moment(result.get('endTime')).format('YYYY-MM-DD HH:mm:ss'));
+                    result.set('greenhouse',result.get('greenhouse').get('name'));
+                    result.set('crop',result.get('crop').get('name'));
+                    result.set('user',result.get('user').get('name'));
+                    if(result.get('status')){
+                        result.set('time',new moment(result.get('endTime')).fromNow());
+                    }
+                    else{
+                        result.set('time',new moment(result.get('startTime')).fromNow());
+                    }
+                    callback1(null,result);
+                },function(err,data){
+                    callback(null,data);
+                });
             });
-            res.render('index',{data:results});
+        }
+        function promise2(callback){
+            let query=new AV.Query('crop');
+            query.equalTo('isDel',false);
+            query.count().then(function(count){
+                callback(null,count);
+            });
+        }
+        function promise3(callback){
+            let query=new AV.Query('resume');
+            query.equalTo('isDel',false);
+            query.count().then(function(count){
+                callback(null,count);
+            });
+        }
+        async.parallel([
+            function (callback){
+                promise1(callback);
+            },
+            function (callback){
+                promise2(callback);
+            },
+            function (callback){
+                promise3(callback);
+            }],function(err,results){
+                res.render('index',{data:results[0],crop:results[1],resume:results[2]});
         });
     }else{
     	res.redirect('login');
@@ -103,7 +134,11 @@ router.get('/harvest', function(req, res) {
 
 router.get('/resume', function(req, res) {
     if(req.currentUser){
-    	res.render('resume');
+        let query=new AV.Query('crop');
+        query.equalTo('isDel',false);
+        query.first().then(function(data){
+            res.render('resume',{data:data});
+        });
     }else{
     	res.redirect('../login');
     }

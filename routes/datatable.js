@@ -292,7 +292,7 @@ router.get('/farming', function(req, res, next) {
                 let totalseconds=endTime.diff(startTime)/1000;
                 let minutes=totalseconds/60;
                 let seconds=minutes%60;
-                let spendTime=minutes+"分"+seconds+"秒";
+                let spendTime=Math.round(minutes)+"分"+Math.round(seconds)+"秒";
                 result.set('DT_RowId',result.id);
                 result.set('name',result.get('name')?result.get('name'):"");
                 result.set('startTime',startTime.format('YYYY-MM-DD HH:mm:ss'));

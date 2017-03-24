@@ -1,5 +1,6 @@
 <%include header%>
-        <div class="tpl-content-wrapper">
+<div id="newMessageDIV" style="display:none"></div> 
+        <div class="tpl-content-wrapper" id="bgm">
             <div class="tpl-content-page-title">
                 璜泾现代农业园数据监测后台
             </div>
@@ -320,6 +321,8 @@
     <script src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
     <script src="../assets/js/echarts.min.js"></script>
     <script type="text/javascript">
+        var warningTemp1,warningTemp2;
+        var temp1,temp2;
         var tempdata_cm=[];
         var tempdata_sc=[];
         var wetdata_cm=[];
@@ -454,6 +457,7 @@
             //console.log(data);
             var arr=data.shucai;
             $('#temp').html(parseFloat(arr[0]).toFixed(2)+"°C");
+            temp1=parseFloat(arr[0]).toFixed(2);
             $('#wet').html(parseFloat(arr[1]).toFixed(1)+"%");
             $('#co2').html(parseFloat(arr[2]).toFixed(1)+"PPM");
             $('#ph').html(parseFloat(arr[3]).toFixed(1));
@@ -461,6 +465,7 @@
             $('#soild').html(parseFloat(arr[5]).toFixed(1)+"%");
             var arr1=data.caomei;
             $('#temp2').html(parseFloat(arr1[0]).toFixed(2)+"°C");
+            temp2=parseFloat(arr[0]).toFixed(2);
             $('#wet2').html(parseFloat(arr1[1]).toFixed(1)+"%");
             $('#co22').html(parseFloat(arr1[2]).toFixed(1)+"PPM");
             $('#ph2').html(parseFloat(arr1[3]).toFixed(1));
@@ -472,6 +477,7 @@
             //console.log(data);
             var arr=data.split(',');
             $('#war-temp').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"°C");
+            warningTemp1=parseFloat(arr[0]);
             $('#war-wet').html(parseFloat(arr[2])+"~"+parseFloat(arr[3])+"%");
             $('#war-co2').html(parseFloat(arr[4])+"~"+parseFloat(arr[5])+"PPM");
             $('#war-ph').html(parseFloat(arr[6])+"~"+parseFloat(arr[7]));
@@ -482,6 +488,7 @@
             //console.log(data);
             var arr=data.split(',');
             $('#war-temp2').html(parseFloat(arr[0])+"~"+parseFloat(arr[1])+"℃");
+            warningTemp2=parseFloat(arr[0]);
             $('#war-wet2').html(parseFloat(arr[2])+"~"+parseFloat(arr[3])+"%");
             $('#war-co22').html(parseFloat(arr[4])+"~"+parseFloat(arr[5])+"PPM");
             $('#war-ph2').html(parseFloat(arr[6])+"~"+parseFloat(arr[7]));
@@ -509,7 +516,20 @@
                     + seperator2 + date.getSeconds();
             return currentdate;
         }
-
+        setInterval('play()', 3000);
+    </script>
+     <script type="text/javascript">
+        function play(){
+       
+            if(temp1>warningTemp1||temp2>warningTemp2)
+            {
+                 $('#newMessageDIV').html('<audio autoplay="autoplay"><source src="../warning.wav"' + 'type="audio/wav"/><source src="../warning.wav" type="audio/wav"/></audio>'); 
+                
+            }else
+            {
+                $('#newMessageDIV').html();
+            }
+        }
     </script>
 </body>
 

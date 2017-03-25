@@ -1,5 +1,5 @@
 <%include header%>
-<div id="newMessageDIV" style="display:none"></div> 
+<div id="newMessageDIV" style="display:none"></div>
         <div class="tpl-content-wrapper" id="bgm">
             <div class="tpl-content-page-title">
                 璜泾现代农业园数据监测后台
@@ -410,6 +410,9 @@
 
         function getData(){
             $.get('../api/getInfo',function(result){
+                if(result==0){
+                    getdata();
+                }
                 time.splice(0,time.length);
                 hour.splice(0,hour.length);
                 tempdata_sc.splice(0,tempdata_sc.length);
@@ -520,11 +523,11 @@
     </script>
      <script type="text/javascript">
         function play(){
-       
+
             if(temp1>warningTemp1||temp2>warningTemp2)
             {
-                 $('#newMessageDIV').html('<audio autoplay="autoplay"><source src="../warning.wav"' + 'type="audio/wav"/><source src="../warning.wav" type="audio/wav"/></audio>'); 
-                
+                 $('#newMessageDIV').html('<audio autoplay="autoplay"><source src="../warning.wav"' + 'type="audio/wav"/><source src="../warning.wav" type="audio/wav"/></audio>');
+
             }else
             {
                 $('#newMessageDIV').html();

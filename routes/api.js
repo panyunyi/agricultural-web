@@ -39,6 +39,8 @@ router.get('/getInfo', function(req, res) {
                 data['time']=new moment(data.time).format('YYYY-MM-DD HH:mm:ss');
             });
             res.jsonp(body);
+        }else{
+            res.jsonp(0)
         }
     });
 });

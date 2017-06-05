@@ -25,6 +25,7 @@
                                     <li class="am-active"><a href="#tab1">试验大棚</a></li>
                                     <li><a href="#tab2">草莓大棚</a></li>
                                     <li><a href="#tab3">蔬菜大棚</a></li>
+                                    <li><a href="#tab4">其他</a></li>
                                 </ul>
 
                                 <div class="am-tabs-bd">
@@ -87,6 +88,32 @@
                                                 <ul class="tpl-task-list tpl-task-remind">
                                                     <% for(var i=0; i<data.length; i++) {%>
                                                          <%if(data[i].get('tab')==3){%>
+                                                    <li>
+                                                        <div class="cosA">
+                                                              <span class="cosIco">
+                                                                <i class="am-icon-video-camera"></i>
+                                                              </span>
+                                                              <%= data[i].get('name') %>
+                                                              <%if(data[i].get('status')==1){%>
+                                                              <span class="video-status font-green">在线<%}else{%>
+                                                              <span class="video-status font-red">离线<%}%>
+                                                              </span>
+                                                              <span onclick="play('<%= data[i].get('liveAddress') %>')" data-am-modal="{target: '#video-modal',width: 800, height: 510}" style="float:right" class="tpl-label-info"> 点击播放
+                                                                  <i class="am-icon-play-circle"></i>
+                                                              </span>
+                                                          </div>
+                                                    </li>
+                                                    <% } }%>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="am-tab-panel am-fade" id="tab4">
+                                        <div id="wrapperD" class="wrapper">
+                                            <div id="scroller" class="scroller">
+                                                <ul class="tpl-task-list tpl-task-remind">
+                                                    <% for(var i=0; i<data.length; i++) {%>
+                                                         <%if(data[i].get('tab')==4){%>
                                                     <li>
                                                         <div class="cosA">
                                                               <span class="cosIco">

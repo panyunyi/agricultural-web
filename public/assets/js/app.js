@@ -83,6 +83,15 @@ var pageData = {
             fadeScrollbars: true
         });
 
+        var myScrollD = new IScroll('#wrapperD', {
+            scrollbars: true,
+            mouseWheel: true,
+            interactiveScrollbars: true,
+            shrinkScrollbars: 'scale',
+            preventDefault: false,
+            fadeScrollbars: true
+        });
+
 
 
         // document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);

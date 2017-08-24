@@ -2,17 +2,17 @@
 
         <div class="tpl-content-wrapper">
             <div class="tpl-content-page-title">
-                农事信息管理
+                园区基础数据维护
             </div>
             <ol class="am-breadcrumb">
                 <li><a href="#" class="am-icon-home">首页</a></li>
                 <li><a href="#">农事管理</a></li>
-                <li class="am-active">农事记录</li>
+                <li class="am-active">作物信息</li>
             </ol>
             <div class="tpl-portlet-components">
                 <div class="portlet-title">
                     <div class="caption font-green bold">
-                        <span class="am-icon-calendar"></span> 农事信息管理
+                        <span class="am-icon-leaf"></span> 农作物信息管理
                     </div>
                 </div>
                 <div class="tpl-block">
@@ -20,16 +20,11 @@
                         <thead>
                             <tr>
                                 <th>序号</th>
-                                <th>农事</th>
-                                <th>开始时间</th>
-                                <th>结束时间</th>
-                                <th>耗时</th>
-                                <th>操作人员</th>
-                                <th>环境</th>
-                                <th>状态</th>
+                                <th>名称</th>
+                                <th>信息</th>
                                 <th>大棚</th>
-                                <th>农作物</th>
-                                <th>备注</th>
+                                <th>营养</th>
+                                <th>烹饪建议</th>
                             </tr>
                         </thead>
                     </table>
@@ -53,7 +48,6 @@
     <script src="../assets/js/dataTables.select.min.js"></script>
     <script src="../assets/js/dataTables.editor.min.js"></script>
     <script src="../assets/js/editor.semanticui.min.js"></script>
-    <script src="http://cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
     <script>
     var editor;
     $(document).ready(function() {
@@ -61,40 +55,33 @@
             ajax: {
                 create: {
                     type: 'POST',
-                    url:  '../api/json/farming/add'
+                    url:  '../api/json/crop/add'
                 },
                 edit: {
                     type: 'PUT',
-                    url:  '../api/json/farming/edit/_id_'
+                    url:  '../api/json/crop/edit/_id_'
                 },
                 remove: {
                     type: 'DELETE',
-                    url:  '../api/json/farming/remove/_id_'
+                    url:  '../api/json/crop/remove/_id_'
                 }
             },
             table: "#table",
             fields: [
-                { label: '农事', name: 'farm',type:'select' },
-                { label: '开始时间', name: 'startTime',type:'datetime',def:function(){return new Date()},format: 'YYYY-MM-DD HH:mm:ss'},
-                { label: '结束时间', name: 'endTime' ,type:'datetime',def:function(){return new Date()},format: 'YYYY-MM-DD HH:mm:ss'},
-                { label: '操作人员', name: 'user',type:'select' },
-                { label: '环境', name: 'info' },
-                { label: '状态',  name: 'status',type:'radio',options:[
-                    { label: "进行中", value: 0},
-                    { label: "已完成",  value: 1 }
-                ], },
+                { label: '名称', name: 'name' },
+                { label: '信息',  name: 'info' },
                 { label: '大棚',  name: 'greenhouse',type:'select' },
-                { label: '农作物',  name: 'crop',type:'select' },
-                { label: '备注',  name: 'remark' }
+                { label: '营养',  name: 'nutrition' },
+                { label: '烹饪建议',  name: 'cooking' }
             ],i18n: {
                     create: {
                         button: "新增",
-                        title:  "新建农事",
+                        title:  "新建农作物",
                         submit: "创建"
                     },
                     edit: {
                         button: "编辑",
-                        title:  "农事记录修改",
+                        title:  "农作物信息修改",
                         submit: "更新"
                     },
                     remove: {
@@ -105,12 +92,6 @@
                             _: "确定要删除 %d 条吗?",
                             1: "确定要删除这条数据吗?"
                         }
-                    },
-                    datetime: {
-                        previous: '上个月',
-                        next:     '下个月',
-                        months:   [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
-                        weekdays: [ '日', '一', '二', '三', '四', '五', '六' ]
                     }
                 }
         } );
@@ -119,19 +100,14 @@
             "processing": true,
             stateSave: true,
             "dom": '<"top"Brf>t<"bottom"ilp>',
-            "ajax": '../api/json/farming',
+            "ajax": '../api/json/crop',
             "columns": [
                 {"data":null},
                 { "data": "name" },
-                { "data": "startTime" },
-                { "data": "endTime" },
-                { "data": "spendTime"},
-                { "data": "username" },
                 { "data": "info" },
-                { "data": "status",render:function(data){return data?"已完成":"进行中"}},
                 { "data": "greenhousename" },
-                { "data": "cropname" },
-                { "data": "remark"}
+                { "data": "nutrition" },
+                { "data": "cooking"}
             ],
             select:true,
             buttons: [
@@ -144,14 +120,7 @@
                 "orderable": false,
                 "targets": 0
             }],
-            "createdRow": function ( row, data, index ) {
-                if ( data.status ) {
-                    $('td', row).eq(7).css("color","#32c5d2");
-                }else {
-                    $('td', row).eq(7).css("color","#e7505a");
-                }
-            },
-            "order": [[2, 'desc']],
+            "order": [[1, 'asc']],
             "language": {
                 "url": "../assets/css/zh_CN.txt"
             }
@@ -167,11 +136,11 @@
         });
     </script>
     <script type="text/javascript">
-        $('#farm').siblings('.tpl-left-nav-sub-menu').slideToggle(80)
+        $('#park').siblings('.tpl-left-nav-sub-menu').slideToggle(80)
             .end()
             .find('.tpl-left-nav-more-ico').toggleClass('tpl-left-nav-more-ico-rotate');
-        $('#farming').addClass('active');
-        $('#farm').addClass('active');
+        $('#crop').addClass('active');
+        $('#park').addClass('active');
     </script>
 </body>
 
